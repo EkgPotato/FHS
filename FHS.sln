@@ -8,6 +8,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FHS.Domain", "FHS.Domain\FHS.Domain.csproj", "{300BDC8F-3CA4-4429-A063-2A79810AF5E3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FHS.Services", "FHS.Services\FHS.Services.csproj", "{9C888503-112D-4123-BCE1-9BC44261D976}"
+	ProjectSection(ProjectDependencies) = postProject
+		{738AA5D1-5E1F-4D6C-AA99-AB991FEE8905} = {738AA5D1-5E1F-4D6C-AA99-AB991FEE8905}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FHS.Data", "FHS.Data\FHS.Data.csproj", "{028A9787-5DA8-4D12-A6B4-7B3FF0327F8E}"
 EndProject

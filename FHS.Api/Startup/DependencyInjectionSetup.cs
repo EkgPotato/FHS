@@ -15,8 +15,6 @@ public static class DependencyInjectionSetup
 
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
-
-        services.AddLogging();
         
         services.AddScoped<IDictExpenseCategoryMapper, DictExpenseCategoryMapper>();
         services.AddScoped<IDictIncomeCategoryMapper, DictIncomeCategoryMapper>();

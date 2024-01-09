@@ -12,7 +12,7 @@ namespace FHS.Services.Service.Features;
 
 public sealed class ExpenseService : BaseCrudService<ExpenseListModel, ExpenseModel, Expense, IExpenseMapper>, IExpenseService
 {
-    public ExpenseService(ILogger<ExpenseService> logger, AppDbContext dbContext, IExpenseMapper mapper) : base(logger, dbContext, mapper)
+    public ExpenseService(ILogger logger, AppDbContext dbContext, IExpenseMapper mapper) : base(logger, dbContext, mapper)
     {
     }
 }

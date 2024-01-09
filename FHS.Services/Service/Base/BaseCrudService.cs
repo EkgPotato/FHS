@@ -1,4 +1,5 @@
 using DataService.Data;
+using FHS.Resources.Logs;
 using FHS.Entities.Dto;
 using FHS.Entities.ListModel.Base;
 using FHS.Entities.Model;
@@ -31,10 +32,26 @@ public abstract class BaseCrudService<TListModel, TModel, TEntity, TMapper> : IB
 
     public async Task CreateAsync(TModel model, CrudResult result)
     {
+        try
+        {
+
+        }
+        catch (Exception ex)
+        {
+            _logger.Error(LogMessage.Error_BaseCrudService_CreateAsync, ex);
+        }
     }
 
     public async Task UpdateAsync(TModel model, CrudResult result)
     {
+        try
+        {
+
+        }
+        catch (Exception ex)
+        {
+            _logger.Error(LogMessage.Error_BaseCrudService_UpdateAsync, ex);
+        }
     }
 
     public async Task DeleteAsync(int id, CrudResult result)
@@ -43,7 +60,7 @@ public abstract class BaseCrudService<TListModel, TModel, TEntity, TMapper> : IB
         {
 
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             _logger.Error(ex.ToString());
         }

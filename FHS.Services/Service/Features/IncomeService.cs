@@ -12,7 +12,7 @@ namespace FHS.Services.Service.Features;
 
 public sealed class IncomeService : BaseCrudService<IncomeListModel, IncomeModel, Income, IIncomeMapper>, IIncomeService
 {
-    public IncomeService(ILogger<IncomeService> logger, AppDbContext dbContext, IIncomeMapper mapper) : base(logger, dbContext, mapper)
+    public IncomeService(ILogger logger, AppDbContext dbContext, IIncomeMapper mapper) : base(logger, dbContext, mapper)
     {
     }
 }

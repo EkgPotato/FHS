@@ -12,7 +12,7 @@ namespace FHS.Services.Service.Dict;
 public sealed class DictExpenseCategoryService 
     : BaseDictCrudService<DictExpenseCategoryListModel, DictExpenseCategoryModel, DictExpenseCategory, IDictExpenseCategoryMapper>, IDictExpenseCategoryService
 {
-    public DictExpenseCategoryService(ILogger<DictExpenseCategoryService> logger, AppDbContext dbContext, IDictExpenseCategoryMapper mapper) : base(logger, dbContext, mapper)
+    public DictExpenseCategoryService(ILogger logger, AppDbContext dbContext, IDictExpenseCategoryMapper mapper) : base(logger, dbContext, mapper)
     {
     }
 }

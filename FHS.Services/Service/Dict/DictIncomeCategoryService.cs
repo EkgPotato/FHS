@@ -12,7 +12,7 @@ namespace FHS.Services.Service.Dict;
 public sealed class DictIncomeCategoryService 
     : BaseDictCrudService<DictIncomeCategoryListModel, DictIncomeCategoryModel, DictIncomeCategory, IDictIncomeCategoryMapper>, IDictIncomeCategoryService
 {
-    public DictIncomeCategoryService(ILogger<DictIncomeCategoryService> logger, AppDbContext dbContext, IDictIncomeCategoryMapper mapper) : base(logger, dbContext, mapper)
+    public DictIncomeCategoryService(ILogger logger, AppDbContext dbContext, IDictIncomeCategoryMapper mapper) : base(logger, dbContext, mapper)
     {
     }
 }
