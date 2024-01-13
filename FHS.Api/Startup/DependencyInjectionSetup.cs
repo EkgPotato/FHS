@@ -4,6 +4,7 @@ using FHS.Services.Service.Dict;
 using FHS.Services.Service.Features;
 using Mapper.Interfaces.Features;
 using Mapper.Mappers.Features;
+using Serilog;
 
 namespace FHS.Api.Startup;
 
@@ -15,7 +16,9 @@ public static class DependencyInjectionSetup
 
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
-        
+
+        services.AddSingleton(Log.Logger);
+
         services.AddScoped<IDictExpenseCategoryMapper, DictExpenseCategoryMapper>();
         services.AddScoped<IDictIncomeCategoryMapper, DictIncomeCategoryMapper>();
         services.AddScoped<IIncomeMapper, IncomeMapper>();

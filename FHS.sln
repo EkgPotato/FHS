@@ -19,6 +19,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FHS.Resources", "FHS.Resources\FHS.Resources.csproj", "{738AA5D1-5E1F-4D6C-AA99-AB991FEE8905}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FHS.Utilities", "FHS.Common\FHS.Utilities.csproj", "{52AA6998-1C83-4697-86B2-215B8AA30D0D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{738AA5D1-5E1F-4D6C-AA99-AB991FEE8905} = {738AA5D1-5E1F-4D6C-AA99-AB991FEE8905}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

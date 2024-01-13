@@ -8,6 +8,7 @@ using FHS.Utilities.ServicesUtilities.Crud;
 using Mapper.Interfaces.Base;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using FHS.Utilities.Exceptions.Service;
 
 namespace FHS.Services.Service.Base;
 
@@ -32,13 +33,30 @@ public abstract class BaseCrudService<TListModel, TModel, TEntity, TMapper> : IB
 
     public async Task CreateAsync(TModel model, CrudResult result)
     {
-        try
+        if (model == null)
         {
-
+            throw new CreateModelNullException();
         }
-        catch (Exception ex)
+
+        using (var dbTransaction = _dbContext.Database.BeginTransaction())
         {
-            _logger.Error(LogMessage.Error_BaseCrudService_CreateAsync, ex);
+            try
+            {
+                var entity = _mapper.MapToEntity(model);
+
+                await BeforeCreateAsync(entity);
+
+                _dbSet.Add(entity);
+
+                dbTransaction.Commit();
+            }
+
+            catch(Exception ex)
+            {
+                dbTransaction.Rollback();
+
+                _logger.Error(LogMessage.Error_BaseCrudService_CreateAsync, ex);
+            }
         }
     }
 
@@ -53,6 +71,18 @@ public abstract class BaseCrudService<TListModel, TModel, TEntity, TMapper> : IB
             _logger.Error(LogMessage.Error_BaseCrudService_UpdateAsync, ex);
         }
     }
+
+    public virtual async Task BeforeCreateAsync(TEntity model)
+    {
+        model.CratedDate = DateTime.Now;
+    }
+
+    public virtual async Task BeforeUpdateAsync(TEntity model)
+    {
+        model.UpdatedDate = DateTime.Now;
+    }
+
+
 
     public async Task DeleteAsync(int id, CrudResult result)
     {
