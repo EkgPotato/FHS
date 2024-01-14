@@ -22,14 +22,14 @@ namespace FHS.Resources.Exceptions {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class CrudExceptionMessages {
+    public class ControllerExceptionMessages {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal CrudExceptionMessages() {
+        internal ControllerExceptionMessages() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace FHS.Resources.Exceptions {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FHS.Resources.Exceptions.CrudExceptionMessages", typeof(CrudExceptionMessages).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("FHS.Resources.Exceptions.ControllerExceptionMessages", typeof(ControllerExceptionMessages).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,20 +61,11 @@ namespace FHS.Resources.Exceptions {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There is no entity with provided Id.
+        ///   Looks up a localized string similar to Wewnętrzny błąd serwera.
         /// </summary>
-        public static string InvalidIdException {
+        public static string Internal_Server_Error {
             get {
-                return ResourceManager.GetString("InvalidIdException", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Passed model was null.
-        /// </summary>
-        public static string ModelNullException {
-            get {
-                return ResourceManager.GetString("ModelNullException", resourceCulture);
+                return ResourceManager.GetString("Internal_Server_Error", resourceCulture);
             }
         }
     }

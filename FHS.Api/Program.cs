@@ -23,6 +23,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     .LogTo(Log.Logger.Information, LogLevel.Information, null)
     .EnableSensitiveDataLogging());
 
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 builder.Services.RegisterServices();
 
 var app = builder.Build();

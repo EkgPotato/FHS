@@ -13,7 +13,8 @@ public interface IBaseCrudService<TListModel, TModel, TEntity>
 {
     Task<IEnumerable<TListModel>> GetAllAsync(); 
     Task<TModel> GetAsync(int id);
-    Task UpdateAsync(TModel model, CrudResult result);
+    Task UpdateAsync(int id, TModel model, CrudResult result);
     Task CreateAsync(TModel model, CrudResult result);
     Task DeleteAsync(int id, CrudResult result);
+    void Validate(TModel model, List<string> validationResuls);
 }

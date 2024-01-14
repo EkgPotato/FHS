@@ -117,10 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="InvalidIdException" xml:space="preserve">
-    <value>There is no entity with provided Id</value>
-  </data>
-  <data name="ModelNullException" xml:space="preserve">
-    <value>Passed model was null</value>
+  <data name="Internal_Server_Error" xml:space="preserve">
+    <value>Wewnętrzny błąd serwera</value>
   </data>
 </root>

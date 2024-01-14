@@ -1,14 +1,15 @@
 using DataService.Data;
-using FHS.Resources.Logs;
 using FHS.Entities.Dto;
 using FHS.Entities.ListModel.Base;
 using FHS.Entities.Model;
+using FHS.Resources.Logs;
 using FHS.Services.Interfaces.Base;
+using FHS.Utilities.Exceptions.Service;
 using FHS.Utilities.ServicesUtilities.Crud;
 using Mapper.Interfaces.Base;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using FHS.Utilities.Exceptions.Service;
+using System;
 
 namespace FHS.Services.Service.Base;
 
@@ -35,7 +36,7 @@ public abstract class BaseCrudService<TListModel, TModel, TEntity, TMapper> : IB
     {
         if (model == null)
         {
-            throw new CreateModelNullException();
+            throw new ModelNullException();
         }
 
         using (var dbTransaction = _dbContext.Database.BeginTransaction())
@@ -47,11 +48,12 @@ public abstract class BaseCrudService<TListModel, TModel, TEntity, TMapper> : IB
                 await BeforeCreateAsync(entity);
 
                 _dbSet.Add(entity);
+                _dbContext.SaveChanges();
 
                 dbTransaction.Commit();
             }
 
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 dbTransaction.Rollback();
 
@@ -60,15 +62,40 @@ public abstract class BaseCrudService<TListModel, TModel, TEntity, TMapper> : IB
         }
     }
 
-    public async Task UpdateAsync(TModel model, CrudResult result)
+    public async Task UpdateAsync(int id, TModel model, CrudResult result)
     {
-        try
+        if (model == null)
         {
-
+            throw new ModelNullException();
         }
-        catch (Exception ex)
+
+        if (!_dbSet.Any(i => i.Id == id))
         {
-            _logger.Error(LogMessage.Error_BaseCrudService_UpdateAsync, ex);
+            throw new InvalidIdException();
+        }
+
+        using (var dbTransaction = _dbContext.Database.BeginTransaction())
+        {
+            try
+            {
+                var entity = _mapper.MapToEntity(model);
+
+                await BeforeUpdateAsync(entity);
+
+                entity.Id = id;
+                _dbSet.Attach(entity);
+                _dbSet.Entry(entity).State = EntityState.Modified;
+                _dbContext.SaveChanges();
+
+                dbTransaction.Commit();
+            }
+
+            catch (Exception ex)
+            {
+                dbTransaction.Rollback();
+                _logger.Error(LogMessage.Error_BaseCrudService_UpdateAsync, ex);
+
+            }
         }
     }
 
@@ -110,4 +137,7 @@ public abstract class BaseCrudService<TListModel, TModel, TEntity, TMapper> : IB
         return _mapper.MapToModel(dbset);
     }
 
+    public void Validate(TModel model, List<string> validationResuls)
+    {
+    }
 }

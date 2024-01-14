@@ -8,21 +8,40 @@ using FHS.Resources.Exceptions;
 
 namespace FHS.Utilities.Exceptions.Service
 {
-    public class CreateModelNullException : Exception
+    public class ModelNullException : Exception
     {
-        public CreateModelNullException() : base(CrudExceptionMessages.CreateModelNullException)
+        public ModelNullException() : base(CrudExceptionMessages.ModelNullException)
         { 
         }
 
-        public CreateModelNullException(string? message) : base(message)
+        public ModelNullException(string? message) : base(message)
         {
         }
 
-        public CreateModelNullException(string? message, Exception? innerException) : base(message, innerException)
+        public ModelNullException(string? message, Exception? innerException) : base(message, innerException)
         {
         }
 
-        protected CreateModelNullException(SerializationInfo info, StreamingContext context) : base(info, context)
+        protected ModelNullException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
+    }
+
+    public class InvalidIdException : Exception
+    {
+        public InvalidIdException() : base(CrudExceptionMessages.InvalidIdException)
+        {
+        }
+
+        public InvalidIdException(string? message) : base(message)
+        {
+        }
+
+        public InvalidIdException(string? message, Exception? innerException) : base(message, innerException)
+        {
+        }
+
+        protected InvalidIdException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }
