@@ -3,13 +3,13 @@ using FHS.Entities.Dto;
 using FHS.Entities.ListModel.Base;
 using FHS.Entities.Model;
 using FHS.Resources.Logs;
+using FHS.Resources.Messages;
 using FHS.Services.Interfaces.Base;
 using FHS.Utilities.Exceptions.Service;
 using FHS.Utilities.ServicesUtilities.Crud;
 using Mapper.Interfaces.Base;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using System;
 
 namespace FHS.Services.Service.Base;
 
@@ -32,11 +32,38 @@ public abstract class BaseCrudService<TListModel, TModel, TEntity, TMapper> : IB
         _dbSet = dbContext.Set<TEntity>();
     }
 
+    public async Task<TModel> GetAsync(int id, CrudResult result)
+    {
+        var entity = await _dbSet.FirstOrDefaultAsync(i => i.Id == id);
+
+        if (entity == null)
+        {
+            result.AddMessage(CrudResultMessages.GetAsync_InvalidId);
+            return null;
+        }
+
+        return _mapper.MapToModel(entity);
+    }
+
+    public async Task<IEnumerable<TListModel>> GetAllAsync(CrudResult result)
+    {
+        var dbset = await _dbSet.ToListAsync();
+
+        return _mapper.MapToListModels(dbset);
+    }
+
+
     public async Task CreateAsync(TModel model, CrudResult result)
     {
         if (model == null)
         {
-            throw new ModelNullException();
+            result.AddMessage(CrudResultMessages.CreateAsync_InvalidModel);
+            return;
+        }
+
+        if (!Validate(model, result))
+        {
+            return;
         }
 
         using (var dbTransaction = _dbContext.Database.BeginTransaction())
@@ -56,8 +83,8 @@ public abstract class BaseCrudService<TListModel, TModel, TEntity, TMapper> : IB
             catch (Exception ex)
             {
                 dbTransaction.Rollback();
-
                 _logger.Error(LogMessage.Error_BaseCrudService_CreateAsync, ex);
+                throw;
             }
         }
     }
@@ -66,12 +93,13 @@ public abstract class BaseCrudService<TListModel, TModel, TEntity, TMapper> : IB
     {
         if (model == null)
         {
-            throw new ModelNullException();
+            result.AddMessage(CrudResultMessages.UpdateAsync_InvalidModel);
+            return;
         }
 
-        if (!_dbSet.Any(i => i.Id == id))
+        if (!Validate(model, result))
         {
-            throw new InvalidIdException();
+            return;
         }
 
         using (var dbTransaction = _dbContext.Database.BeginTransaction())
@@ -94,7 +122,7 @@ public abstract class BaseCrudService<TListModel, TModel, TEntity, TMapper> : IB
             {
                 dbTransaction.Rollback();
                 _logger.Error(LogMessage.Error_BaseCrudService_UpdateAsync, ex);
-
+                throw;
             }
         }
     }
@@ -109,35 +137,44 @@ public abstract class BaseCrudService<TListModel, TModel, TEntity, TMapper> : IB
         model.UpdatedDate = DateTime.Now;
     }
 
-
-
     public async Task DeleteAsync(int id, CrudResult result)
     {
-        try
+
+        var entity = await _dbSet.FirstOrDefaultAsync(i => i.Id == id);
+
+        if (entity != null)
         {
-
+            result.AddMessage(CrudResultMessages.DeleteAsync_InvalidId);
+            return;
         }
-        catch (Exception ex)
+
+        using (var dbTransaction = _dbContext.Database.BeginTransaction())
         {
-            _logger.Error(ex.ToString());
+            try
+            {
+                BeforeDeleteAsync(id, result);
+
+                _dbSet.Remove(entity);
+                _dbContext.SaveChanges();
+                dbTransaction.Commit();
+
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.ToString());
+                dbTransaction.Rollback();
+                throw;
+            }
         }
     }
 
-    public async Task<IEnumerable<TListModel>> GetAllAsync()
+    public virtual void BeforeDeleteAsync(int id, CrudResult result)
     {
-        var dbset = await _dbSet.ToListAsync();
-
-        return _mapper.MapToListModels(dbset);
     }
 
-    public async Task<TModel> GetAsync(int id)
+    public virtual bool Validate(TModel model, CrudResult validationResuls)
     {
-        var dbset = await _dbSet.FirstOrDefaultAsync(i => i.Id == id);
-
-        return _mapper.MapToModel(dbset);
-    }
-
-    public void Validate(TModel model, List<string> validationResuls)
-    {
+        return true;
     }
 }

@@ -25,34 +25,53 @@ where TService : IBaseCrudService<TListModel, TModel, TEntity>
         _service = service;
     }
 
-    [HttpPost("{id}")]
-    public async Task<IActionResult> UpdateAsync(int id, [FromBody] TModel updatedEntity)
+    [HttpGet("{id}")]
+    public async Task<ActionResult<TModel>> GetAsync(int id)
     {
         try
         {
             var result = new CrudResult();
 
-            _service.Validate(updatedEntity, result.ValidationMessages);
+            var item = await _service.GetAsync(id, result);
 
-            if (result.ValidationMessages.Any())
+            if (item != null)
             {
-                return BadRequest(result.ValidationMessages);
-            }
-
-            await _service.UpdateAsync(id, updatedEntity, result);
-
-            if (result.Succeed())
-            {
-                return NoContent();
+                return Ok(item);
             }
             else
             {
-                return base.UnprocessableEntity(updatedEntity);
+                return BadRequest(result.Messages);
+            }
+
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("Error in method {method}: {exception}", nameof(GetAsync), ex);
+            return StatusCode(500, ControllerExceptionMessages.Internal_Server_Error);
+        }
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<TListModel>>> GetList()
+    {
+        try
+        {
+            var result = new CrudResult();
+
+            var item = await _service.GetAllAsync(result);
+
+            if (item != null)
+            {
+                return Ok(item);
+            }
+            else
+            {
+                return BadRequest(result.Messages);
             }
         }
         catch (Exception ex)
         {
-            _logger.LogError("Error in method {method} on entity {entity}: {exception} ", nameof(UpdateAsync), updatedEntity.ToString(), ex);
+            _logger.LogError("Error in method {method}: {exception}", nameof(GetList), ex);
             return StatusCode(500, ControllerExceptionMessages.Internal_Server_Error);
         }
     }
@@ -63,13 +82,6 @@ where TService : IBaseCrudService<TListModel, TModel, TEntity>
         try
         {
             var result = new CrudResult();
-
-            _service.Validate(entity, result.ValidationMessages);
-
-            if (result.ValidationMessages.Any())
-            {
-                return BadRequest(result.ValidationMessages);
-            }
 
             await _service.CreateAsync(entity, result);
 
@@ -89,37 +101,53 @@ where TService : IBaseCrudService<TListModel, TModel, TEntity>
         }
     }
 
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<TListModel>>> GetList()
+    [HttpPost("{id}")]
+    public async Task<IActionResult> UpdateAsync(int id, [FromBody] TModel entity)
     {
         try
         {
-            var items = await _service.GetAllAsync();
-            return Ok(items);
+            var result = new CrudResult();
+
+            await _service.UpdateAsync(id, entity, result);
+
+            if (result.Succeed())
+            {
+                return CreatedAtAction(nameof(CreateAsync), entity);
+            }
+            else
+            {
+                return base.UnprocessableEntity(entity);
+            }
         }
         catch (Exception ex)
         {
-            _logger.LogError("Error in method {method}: {exception}", nameof(GetList), ex);
+            _logger.LogError("Error in method {method} on entity {entity}: {exception} ", nameof(UpdateAsync), entity.ToString(), ex);
             return StatusCode(500, ControllerExceptionMessages.Internal_Server_Error);
         }
     }
 
-    [HttpGet("{id}")]
-    public async Task<ActionResult<TModel>> GetAsync(int id)
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteAsync(int id)
     {
         try
         {
-            if (id == 0)
-            {
-                return BadRequest();
-            }
+            var result = new CrudResult();
 
-            var item = await _service.GetAsync(id);
-            return Ok(item);
+            await _service.DeleteAsync(id, result);
+
+            if (result.Succeed())
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(result.Messages);
+            }
         }
         catch (Exception ex)
         {
-            _logger.LogError("Error in method {method}: {exception}", nameof(GetAsync), ex);
+            _logger.LogError("Error in method {method}: {exception}", nameof(DeleteAsync), ex);
             return StatusCode(500, ControllerExceptionMessages.Internal_Server_Error);
         }
     }

@@ -11,10 +11,9 @@ public interface IBaseCrudService<TListModel, TModel, TEntity>
     where TModel : BaseModel
     where TEntity : BaseEntity
 {
-    Task<IEnumerable<TListModel>> GetAllAsync(); 
-    Task<TModel> GetAsync(int id);
-    Task UpdateAsync(int id, TModel model, CrudResult result);
+    Task<TModel> GetAsync(int id, CrudResult result);
+    Task<IEnumerable<TListModel>> GetAllAsync(CrudResult result);
     Task CreateAsync(TModel model, CrudResult result);
+    Task UpdateAsync(int id, TModel model, CrudResult result);
     Task DeleteAsync(int id, CrudResult result);
-    void Validate(TModel model, List<string> validationResuls);
 }
