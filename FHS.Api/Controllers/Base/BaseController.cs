@@ -3,7 +3,7 @@ using FHS.Entities.ListModel.Base;
 using FHS.Entities.Model;
 using FHS.Resources.Exceptions;
 using FHS.Services.Interfaces.Base;
-using FHS.Utilities.ServicesUtilities.Crud;
+using FHS.Utilities.Common.Crud;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FHS.Api.Controllers.Base;

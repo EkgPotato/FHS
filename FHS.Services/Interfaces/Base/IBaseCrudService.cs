@@ -2,7 +2,7 @@ using FHS.Entities.Dto;
 using FHS.Entities.ListModel;
 using FHS.Entities.ListModel.Base;
 using FHS.Entities.Model;
-using FHS.Utilities.ServicesUtilities.Crud;
+using FHS.Utilities.Common.Crud;
 
 namespace FHS.Services.Interfaces.Base;
 

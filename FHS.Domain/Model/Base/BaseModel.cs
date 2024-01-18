@@ -7,24 +7,24 @@ public abstract class BaseModel
 {
     public int Id { get; set; }
 
-    public override string ToString()
-    {
-        Type type = this.GetType();
+    //public override string ToString()
+    //{
+    //    Type type = this.GetType();
 
-        PropertyInfo[] properties = type.GetProperties();
+    //    PropertyInfo[] properties = type.GetProperties();
 
-        StringBuilder sb = new StringBuilder();
+    //    StringBuilder sb = new StringBuilder();
 
-        foreach (PropertyInfo property in properties)
-        {
-            string name = property.Name;
+    //    foreach (PropertyInfo property in properties)
+    //    {
+    //        string name = property.Name;
 
-            object? value = property.GetValue(this);
+    //        object? value = property.GetValue(this);
 
-            sb.Append(name + ": " + value + "; ");
-        }
+    //        sb.Append(name + ": " + value + "; ");
+    //    }
 
-        // Return the output as a string
-        return sb.ToString();
-    }
+    //    // Return the output as a string
+    //    return sb.ToString();
+    //}
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FHS.Utilities.ServicesUtilities.Crud
+namespace FHS.Utilities.Common.Crud
 {
     public sealed class CrudResult
     {
