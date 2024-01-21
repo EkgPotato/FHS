@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FHS.Interfaces\FHS.Interfaces.csproj" />
     <ProjectReference Include="..\FHS.Resources\FHS.Resources.csproj" />
   </ItemGroup>
 

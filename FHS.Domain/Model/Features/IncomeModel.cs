@@ -1,6 +1,8 @@
+using FHS.Domain.Interfaces.Model.Features;
+
 namespace FHS.Entities.Model.Features;
 
-public sealed class IncomeModel : BaseModel
+public sealed class IncomeModel : BaseModel, IIncomeModel
 {
     public string? Name { get; set; }
 

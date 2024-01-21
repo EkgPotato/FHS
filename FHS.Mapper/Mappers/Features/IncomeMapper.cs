@@ -1,7 +1,7 @@
 ﻿using FHS.Entities.Dto.Features;
 using FHS.Entities.ListModel.Features;
 using FHS.Entities.Model.Features;
-using Mapper.Interfaces.Features;
+using FHS.Interfaces.Mapper.Features;
 using Mapper.Mappers.Base;
 
 namespace Mapper.Mappers.Features;

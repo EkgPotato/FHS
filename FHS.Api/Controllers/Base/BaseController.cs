@@ -1,8 +1,9 @@
-using FHS.Entities.Dto;
-using FHS.Entities.ListModel.Base;
-using FHS.Entities.Model;
+using FHS.Domain.Interfaces.Dto.Base;
+using FHS.Entities.Interfaces.ListModel.Base;
+using FHS.Entities.Interfaces.Model.Base;
+using FHS.Interfaces.Api.Controllers.Base;
+using FHS.Interfaces.Services.Base;
 using FHS.Resources.Exceptions;
-using FHS.Services.Interfaces.Base;
 using FHS.Utilities.Common.Crud;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,11 +11,11 @@ namespace FHS.Api.Controllers.Base;
 
 [Route("api/[controller]")]
 [ApiController]
-public abstract class BaseController<TListModel, TModel, TEntity, TService> : ControllerBase
-where TListModel : BaseListModel
-where TModel : BaseModel
-where TEntity : BaseEntity
-where TService : IBaseCrudService<TListModel, TModel, TEntity>
+public abstract class BaseController<TListModel, TModel, TEntity, TService> : ControllerBase,
+    IBaseController<TListModel, TModel> where TListModel : IBaseListModel
+    where TModel : class, IBaseModel
+    where TEntity : class, IBaseEntity
+    where TService : IBaseCrudService<TListModel, TModel, TEntity>
 {
     private protected readonly ILogger _logger;
     private protected readonly TService _service;

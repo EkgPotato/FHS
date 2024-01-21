@@ -1,21 +1,21 @@
 using DataService.Data;
-using FHS.Entities.Dto;
-using FHS.Entities.ListModel.Base;
-using FHS.Entities.Model;
+using FHS.Domain.Interfaces.Dto.Base;
+using FHS.Entities.Interfaces.ListModel.Base;
+using FHS.Entities.Interfaces.Model.Base;
+using FHS.Interfaces.Common.Crud;
+using FHS.Interfaces.Services.Base;
 using FHS.Resources.Logs;
 using FHS.Resources.Messages;
-using FHS.Services.Interfaces.Base;
-using FHS.Utilities.Common.Crud;
-using Mapper.Interfaces.Base;
+using FHS.Interfaces.Mapper.Base;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 namespace FHS.Services.Service.Base;
 
 public abstract class BaseCrudService<TListModel, TModel, TEntity, TMapper> : IBaseCrudService<TListModel, TModel, TEntity>
-    where TListModel : BaseListModel
-    where TModel : BaseModel
-    where TEntity : BaseEntity
+    where TListModel : class, IBaseListModel
+    where TModel : class, IBaseModel
+    where TEntity : class, IBaseEntity
     where TMapper : IBaseMapper<TListModel, TModel, TEntity>
 {
     public readonly ILogger _logger;
@@ -31,7 +31,7 @@ public abstract class BaseCrudService<TListModel, TModel, TEntity, TMapper> : IB
         _dbSet = dbContext.Set<TEntity>();
     }
 
-    public async Task<TModel> GetAsync(int id, CrudResult result)
+    public async Task<TModel?> GetAsync(int id, ICrudResult result)
     {
         var entity = await _dbSet.FirstOrDefaultAsync(i => i.Id == id);
 
@@ -44,7 +44,7 @@ public abstract class BaseCrudService<TListModel, TModel, TEntity, TMapper> : IB
         return _mapper.MapToModel(entity);
     }
 
-    public async Task<IEnumerable<TListModel>> GetAllAsync(CrudResult result)
+    public async Task<IEnumerable<TListModel>> GetAllAsync(ICrudResult result)
     {
         var dbset = await _dbSet.ToListAsync();
 
@@ -52,7 +52,7 @@ public abstract class BaseCrudService<TListModel, TModel, TEntity, TMapper> : IB
     }
 
 
-    public async Task CreateAsync(TModel model, CrudResult result)
+    public async Task CreateAsync(TModel model, ICrudResult result)
     {
         if (model == null)
         {
@@ -88,7 +88,7 @@ public abstract class BaseCrudService<TListModel, TModel, TEntity, TMapper> : IB
         }
     }
 
-    public async Task UpdateAsync(int id, TModel model, CrudResult result)
+    public async Task UpdateAsync(int id, TModel model, ICrudResult result)
     {
         if (model == null)
         {
@@ -136,12 +136,12 @@ public abstract class BaseCrudService<TListModel, TModel, TEntity, TMapper> : IB
         model.UpdatedDate = DateTime.Now;
     }
 
-    public async Task DeleteAsync(int id, CrudResult result)
+    public async Task DeleteAsync(int id, ICrudResult result)
     {
 
         var entity = await _dbSet.FirstOrDefaultAsync(i => i.Id == id);
 
-        if (entity != null)
+        if (entity == null)
         {
             result.AddMessage(CrudResultMessages.DeleteAsync_InvalidId);
             return;
@@ -168,11 +168,11 @@ public abstract class BaseCrudService<TListModel, TModel, TEntity, TMapper> : IB
         }
     }
 
-    public virtual void BeforeDeleteAsync(int id, CrudResult result)
+    public virtual void BeforeDeleteAsync(int id, ICrudResult result)
     {
     }
 
-    public virtual bool Validate(TModel model, CrudResult validationResuls)
+    public virtual bool Validate(TModel model, ICrudResult validationResuls)
     {
         return true;
     }

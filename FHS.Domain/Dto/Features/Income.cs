@@ -2,7 +2,7 @@ using FHS.Entities.Dto.Dict;
 
 namespace FHS.Entities.Dto.Features;
 
-public sealed class Income : BaseEntity
+public sealed class Income : BaseEntity, IIncome
 {
     public string? Name { get; set; }
     public double? Value { get; set; }

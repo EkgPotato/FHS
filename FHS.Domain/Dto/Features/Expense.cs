@@ -2,7 +2,7 @@ using FHS.Entities.Dto.Dict;
 
 namespace FHS.Entities.Dto.Features;
 
-public sealed class Expense : BaseEntity
+public sealed class Expense : BaseEntity, IExpense
 {
     public string? Name { get; set; }
 

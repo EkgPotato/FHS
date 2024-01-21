@@ -1,6 +1,8 @@
+using FHS.Entities.Interfaces.Model.Features;
+
 namespace FHS.Entities.Model.Features;
 
-public sealed class ExpenseModel : BaseModel
+public sealed class ExpenseModel : BaseModel, IExpenseModel
 {
     public string? Name { get; set; }
 

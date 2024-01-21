@@ -1,9 +1,10 @@
 using System.Reflection;
 using System.Text;
+using FHS.Entities.Interfaces.Model.Base;
 
 namespace FHS.Entities.Model;
 
-public abstract class BaseModel
+public abstract class BaseModel : IBaseModel
 {
     public int Id { get; set; }
 

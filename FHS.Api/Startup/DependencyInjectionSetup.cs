@@ -1,10 +1,10 @@
-using FHS.Services.Interfaces.Dict;
-using FHS.Services.Interfaces.Features;
 using FHS.Services.Service.Dict;
 using FHS.Services.Service.Features;
-using Mapper.Interfaces.Features;
+using FHS.Interfaces.Mapper.Features;
 using Mapper.Mappers.Features;
 using Serilog;
+using FHS.Interfaces.Services.Dict;
+using FHS.Interfaces.Services.Features;
 
 namespace FHS.Api.Startup;
 
