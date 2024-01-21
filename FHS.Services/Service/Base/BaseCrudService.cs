@@ -4,7 +4,6 @@ using FHS.Entities.Interfaces.ListModel.Base;
 using FHS.Entities.Interfaces.Model.Base;
 using FHS.Interfaces.Common.Crud;
 using FHS.Interfaces.Services.Base;
-using FHS.Resources.Logs;
 using FHS.Resources.Messages;
 using FHS.Interfaces.Mapper.Base;
 using Microsoft.EntityFrameworkCore;
