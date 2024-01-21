@@ -12,7 +12,8 @@ namespace FHS.Api.Controllers.Base;
 [Route("api/[controller]")]
 [ApiController]
 public abstract class BaseController<TListModel, TModel, TEntity, TService> : ControllerBase,
-    IBaseController<TListModel, TModel> where TListModel : IBaseListModel
+    IBaseController<TListModel, TModel>
+    where TListModel : class, IBaseListModel
     where TModel : class, IBaseModel
     where TEntity : class, IBaseEntity
     where TService : IBaseCrudService<TListModel, TModel, TEntity>
@@ -53,7 +54,7 @@ public abstract class BaseController<TListModel, TModel, TEntity, TService> : Co
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<TListModel>>> GetList()
+    public async Task<ActionResult<IEnumerable<TListModel>>> GetListAsync()
     {
         try
         {
@@ -72,7 +73,7 @@ public abstract class BaseController<TListModel, TModel, TEntity, TService> : Co
         }
         catch (Exception ex)
         {
-            _logger.LogError("Error in method {method}: {exception}", nameof(GetList), ex);
+            _logger.LogError("Error in method {method}: {exception}", nameof(GetListAsync), ex);
             return StatusCode(500, ControllerExceptionMessages.Internal_Server_Error);
         }
     }

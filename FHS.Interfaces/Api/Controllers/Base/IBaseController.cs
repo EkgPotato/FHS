@@ -11,7 +11,7 @@ namespace FHS.Interfaces.Api.Controllers.Base
         Task<ActionResult> CreateAsync([FromBody] TModel entity);
         Task<ActionResult> DeleteAsync(int id);
         Task<ActionResult<TModel>> GetAsync(int id);
-        Task<ActionResult<IEnumerable<TListModel>>> GetList();
+        Task<ActionResult<IEnumerable<TListModel>>> GetListAsync();
         Task<IActionResult> UpdateAsync(int id, [FromBody] TModel entity);
     }
 }

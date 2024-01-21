@@ -1,8 +1,10 @@
 ﻿using FHS.Api.Controllers.Features;
+using FHS.Domain.Interfaces.Model.Features;
+using FHS.Entities.Dto.Features;
+using FHS.Entities.ListModel.Features;
 using FHS.Entities.Model.Features;
-using FHS.Interfaces.Common.Crud;
-using FHS.Interfaces.Domain.Model.Features;
-using FHS.Services.Interfaces.Features;
+using FHS.Interfaces.Services.Features;
+using FHS.Tests.Api.Controllers.Base;
 using FHS.Utilities.Common.Crud;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
@@ -12,32 +14,57 @@ using Xunit;
 
 namespace FHS.Tests.Api.Controllers.Features
 {
-    public class IncomeControllerUnitTest
+    public class IncomeControllerUnitTest : BaseControllerUnitTests<IncomeListModel, IncomeModel, Income, IncomeController, IIncomeService>
     {
-        private readonly Mock<IIncomeService> _incomeServiceMock;
-        private readonly IncomeController _incomeControllerMock;
-        public IncomeControllerUnitTest()
+        public IncomeControllerUnitTest() : base()
         {
-
-            var loggerMock = new Mock<ILogger<IncomeController>>();
-            _incomeServiceMock = new Mock<IIncomeService>();
-            _incomeControllerMock = new IncomeController(loggerMock.Object, _incomeServiceMock.Object);
+            _controller = new IncomeController(_loggerMock.Object, _serviceMock.Object);
         }
 
 
-        [Fact]
-        public async Task GetAsync_WithValidId_ReturnsOkResult()
-        {
-            //Arrange
-            var mockResult = new Mock<ICrudResult>();
-            var mockItem = new Mock<IncomeModel>();
-            _incomeServiceMock.Setup(s => s.GetAsync(1, mockResult.Object)).ReturnsAsync(mockItem.Object);
+        //[Fact]
+        //public async Task GetAsync_WithValidId_ReturnsOkResult()
+        //{
+        //    //Arrange
+        //    //var crudResult = new CrudResult();
+        //    var item = new IncomeModel();
+        //    _incomeServiceMock.Setup(s => s.GetAsync(It.IsAny<int>(), It.IsAny<CrudResult>())).ReturnsAsync(item).Verifiable();
 
-            // Act
-            var result = await _incomeControllerMock.GetAsync(1);
+        //    // Act
+        //    var result = await _incomeController.GetAsync(1);
 
-            // Assert
-            result.Result.Should().BeOfType<OkObjectResult>();
-        }
+        //    // Assert
+        //    result.Result.Should().BeOfType<OkObjectResult>().Which.Value.Should().BeEquivalentTo(item);
+        //}
+
+        //[Fact]
+        //public async Task GetAsync_WithInvalidId_ReturnsBadRequest()
+        //{
+        //    //Arrange 
+        //    var id = -1;
+
+        //    //Act
+        //    var result = await _incomeController.GetAsync(id);
+
+        //    //Assert
+        //    result.Result.Should().BeOfType<BadRequestObjectResult>();
+        //}
+
+        //[Fact]
+        //public async Task GetAsync_ExceptionThrown_ReturnsInternalServerErrorResult()
+        //{
+        //    // Arrange
+        //    int validId = 1;
+
+        //    _incomeServiceMock.Setup(x => x.GetAsync(validId, It.IsAny<CrudResult>()))
+        //                .ThrowsAsync(new Exception());
+
+        //    // Act
+        //    var result = await _incomeController.GetAsync(validId);
+
+        //    // Assert
+        //    result.Result.Should().BeOfType<ObjectResult>()
+        //        .Which.StatusCode.Should().Be(500);
+        //}
     }
 }
