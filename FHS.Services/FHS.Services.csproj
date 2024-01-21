@@ -10,7 +10,9 @@
       <ProjectReference Include="..\FHS.Common\FHS.Utilities.csproj" />
       <ProjectReference Include="..\FHS.Data\FHS.Data.csproj" />
       <ProjectReference Include="..\FHS.Domain\FHS.Domain.csproj" />
+      <ProjectReference Include="..\FHS.Interfaces\FHS.Interfaces.csproj" />
       <ProjectReference Include="..\FHS.Mapper\FHS.Mapper.csproj" />
+      <ProjectReference Include="..\FHS.Resources\FHS.Resources.csproj" />
     </ItemGroup>
 
     <ItemGroup>
