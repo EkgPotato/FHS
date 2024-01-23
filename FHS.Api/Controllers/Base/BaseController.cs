@@ -79,7 +79,7 @@ public abstract class BaseController<TListModel, TModel, TEntity, TService> : Co
     }
 
     [HttpPost]
-    public async Task<ActionResult> CreateAsync([FromBody] TModel entity)
+    public async Task<ActionResult> CreateAsync([FromBody] TModel? entity)
     {
         try
         {
@@ -104,7 +104,7 @@ public abstract class BaseController<TListModel, TModel, TEntity, TService> : Co
     }
 
     [HttpPost("{id}")]
-    public async Task<IActionResult> UpdateAsync(int id, [FromBody] TModel entity)
+    public async Task<IActionResult> UpdateAsync(int id, [FromBody] TModel? entity)
     {
         try
         {

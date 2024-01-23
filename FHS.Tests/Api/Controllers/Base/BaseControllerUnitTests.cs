@@ -1,24 +1,14 @@
-﻿using FHS.Api.Controllers.Features;
-using FHS.Domain.Interfaces.Dto.Base;
+﻿using FHS.Domain.Interfaces.Dto.Base;
 using FHS.Entities.Interfaces.ListModel.Base;
 using FHS.Entities.Interfaces.Model.Base;
-using FHS.Entities.Model.Features;
 using FHS.Interfaces.Api.Controllers.Base;
+using FHS.Interfaces.Common.Crud;
 using FHS.Interfaces.Services.Base;
-using FHS.Interfaces.Services.Features;
 using FHS.Utilities.Common.Crud;
 using FluentAssertions;
-using FluentAssertions.Common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Serilog.Core;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace FHS.Tests.Api.Controllers.Base
@@ -127,5 +117,154 @@ namespace FHS.Tests.Api.Controllers.Base
                 .Which.StatusCode.Should().Be(500);
         }
 
+        [Fact]
+        public async Task CreateAsync_WithValidEntity_ReturnsCreatedAtAction()
+        {
+            //Arrange
+            var model = new TModel();
+            _serviceMock.Setup(s => s.CreateAsync(model, It.IsAny<CrudResult>())).Verifiable();
+
+            //Act
+            var result = await _controller.CreateAsync(model);
+
+            //Assert 
+            var actionResult = result.Should().BeOfType<CreatedAtActionResult>().Which;
+            actionResult.StatusCode.Should().Be(201);
+            actionResult.Value.Should().Be(model);
+        }
+
+        [Fact]
+        public async Task CreateAsync_WithInvalidEntity_ReturnsUnprocessableEntity()
+        {
+            // Arrange
+            var model = new TModel();
+            _serviceMock.Setup(s => s.CreateAsync(model, It.IsAny<CrudResult>()))
+                .Callback((TModel model, ICrudResult result) => result.AddMessage("Test error message"))
+                .Returns(Task.CompletedTask);
+
+            // Act
+            var result = await _controller.CreateAsync(model);
+            _serviceMock.Verify();
+
+            //Assert 
+            var actionResult = result.Should().BeOfType<UnprocessableEntityObjectResult>().Which;
+            actionResult.StatusCode.Should().Be(422);
+
+        }
+
+        [Fact]
+        public async Task CreateAsync_ExceptionThrown_ReturnInternalServerErrorResult()
+        {
+            // Arrange
+            var model = new TModel();
+            _serviceMock.Setup(s => s.CreateAsync(model, It.IsAny<CrudResult>()))
+                .ThrowsAsync(new Exception());
+
+            // Act
+            var result = await _controller.CreateAsync(model);
+            _serviceMock.Verify();
+
+            //Assert 
+            result.Should().BeOfType<ObjectResult>()
+                .Which.StatusCode.Should().Be(500);
+
+        }
+
+        [Fact]
+        public async Task UpdateAsync_WithValidEntity_ReturnsCreatedAtAction()
+        {
+            //Arrange
+            var model = new TModel();
+            _serviceMock.Setup(s => s.UpdateAsync(It.IsAny<int>(), model, It.IsAny<CrudResult>())).Verifiable();
+
+            //Act
+            var result = await _controller.UpdateAsync(1, model);
+
+            //Assert 
+            var actionResult = result.Should().BeOfType<CreatedAtActionResult>().Which;
+            actionResult.StatusCode.Should().Be(201);
+            actionResult.Value.Should().Be(model);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_WithInvalidEntity_ReturnsUnprocessableEntity()
+        {
+            // Arrange
+            var model = new TModel();
+            _serviceMock.Setup(s => s.UpdateAsync(It.IsAny<int>(), model, It.IsAny<CrudResult>()))
+                .Callback((int id, TModel model, ICrudResult result) => result.AddMessage("Test error message"))
+                .Returns(Task.CompletedTask);
+
+            // Act
+            var result = await _controller.UpdateAsync(1, model);
+
+            //Assert 
+            var actionResult = result.Should().BeOfType<UnprocessableEntityObjectResult>().Which;
+            actionResult.StatusCode.Should().Be(422);
+
+        }
+
+        [Fact]
+        public async Task UpdateAsync_ExceptionThrown_ReturnInternalServerErrorResult()
+        {
+            // Arrange
+            var model = new TModel();
+            _serviceMock.Setup(s => s.UpdateAsync(It.IsAny<int>(), model, It.IsAny<CrudResult>()))
+                .ThrowsAsync(new Exception());
+
+            // Act
+            var result = await _controller.UpdateAsync(1, model);
+            _serviceMock.Verify();
+
+            //Assert 
+            result.Should().BeOfType<ObjectResult>()
+                .Which.StatusCode.Should().Be(500);
+        }
+
+        [Fact]
+        public async Task DeleteAsync_WithValidId_ReturnsOk()
+        {
+            //Arrange
+            _serviceMock.Setup(i => i.DeleteAsync(It.IsAny<int>(), It.IsAny<CrudResult>())).Verifiable();
+
+            //Act
+            var result = await _controller.DeleteAsync(1);
+
+            //Assert
+            result.Should().BeOfType<OkResult>()
+                .Which.StatusCode.Should().Be(200);
+        }
+
+        [Fact]
+        public async Task DeleteAsync_WithInvalidId_ReturnsBadRequest()
+        {
+            //Arrange
+            _serviceMock.Setup(i => i.DeleteAsync(It.IsAny<int>(), It.IsAny<CrudResult>()))
+                .Callback((int id, ICrudResult result) => result.AddMessage("TestMessage"));
+
+            //Act
+            var result = await _controller.DeleteAsync(-1);
+
+            //Assert
+            var actionResult = result.Should().BeOfType<BadRequestObjectResult>().Which;
+            actionResult.StatusCode.Should().Be(400);
+        }
+
+        [Fact]
+        public async Task DeleteAsync_ExceptionThrown_ReturnInternalServerErrorResult()
+        {
+            // Arrange
+            var model = new TModel();
+            _serviceMock.Setup(s => s.DeleteAsync(It.IsAny<int>(), It.IsAny<CrudResult>()))
+                .ThrowsAsync(new Exception());
+
+            // Act
+            var result = await _controller.DeleteAsync(1);
+            _serviceMock.Verify();
+
+            //Assert 
+            result.Should().BeOfType<ObjectResult>()
+                .Which.StatusCode.Should().Be(500);
+        }
     }
 }

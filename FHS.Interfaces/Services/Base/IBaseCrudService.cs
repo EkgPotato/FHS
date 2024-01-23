@@ -13,7 +13,7 @@ public interface IBaseCrudService<TListModel, TModel, TEntity>
 {
     Task<TModel?> GetAsync(int id, ICrudResult result);
     Task<IEnumerable<TListModel>> GetAllAsync(ICrudResult result);
-    Task CreateAsync(TModel model, ICrudResult result);
-    Task UpdateAsync(int id, TModel model, ICrudResult result);
+    Task CreateAsync(TModel? model, ICrudResult result);
+    Task UpdateAsync(int id, TModel? model, ICrudResult result);
     Task DeleteAsync(int id, ICrudResult result);
 }

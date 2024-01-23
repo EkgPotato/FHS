@@ -51,7 +51,7 @@ public abstract class BaseCrudService<TListModel, TModel, TEntity, TMapper> : IB
     }
 
 
-    public async Task CreateAsync(TModel model, ICrudResult result)
+    public async Task CreateAsync(TModel? model, ICrudResult result)
     {
         if (model == null)
         {
@@ -87,7 +87,7 @@ public abstract class BaseCrudService<TListModel, TModel, TEntity, TMapper> : IB
         }
     }
 
-    public async Task UpdateAsync(int id, TModel model, ICrudResult result)
+    public async Task UpdateAsync(int id, TModel? model, ICrudResult result)
     {
         if (model == null)
         {
