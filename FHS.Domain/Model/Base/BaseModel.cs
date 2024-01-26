@@ -8,6 +8,10 @@ public abstract class BaseModel : IBaseModel
 {
     public int Id { get; set; }
 
+    public DateTime CreatedDate { get; set; }
+
+    public DateTime UpdatedDate { get; set; }
+
     //public override string ToString()
     //{
     //    Type type = this.GetType();

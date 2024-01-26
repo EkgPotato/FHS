@@ -1,4 +1,5 @@
-﻿using FHS.Domain.Interfaces.Dto.Base;
+﻿using FHS.Api.Controllers.Base;
+using FHS.Domain.Interfaces.Dto.Base;
 using FHS.Entities.Interfaces.ListModel.Base;
 using FHS.Entities.Interfaces.Model.Base;
 using FHS.Interfaces.Api.Controllers.Base;
@@ -130,7 +131,21 @@ namespace FHS.Tests.Api.Controllers.Base
             //Assert 
             var actionResult = result.Should().BeOfType<CreatedAtActionResult>().Which;
             actionResult.StatusCode.Should().Be(201);
-            actionResult.Value.Should().Be(model);
+            actionResult.RouteValues.Should().NotBeNull();
+            actionResult.RouteValues["id"].Should().Be(model.Id);
+            actionResult.Value.Should().BeEquivalentTo(model);
+        }
+
+        [Fact]
+        public async Task CreateAsync_WithNullEntity_ReturnsBadRequestResult()
+        {
+            // Act
+            var result = await _controller.CreateAsync(null);
+
+            //Assert 
+            var actionResult = result.Should().BeOfType<BadRequestResult>().Which;
+            actionResult.StatusCode.Should().Be(400);
+
         }
 
         [Fact]
@@ -184,6 +199,35 @@ namespace FHS.Tests.Api.Controllers.Base
             var actionResult = result.Should().BeOfType<CreatedAtActionResult>().Which;
             actionResult.StatusCode.Should().Be(201);
             actionResult.Value.Should().Be(model);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_WithNullEntity_ReturnsBadRequestResult()
+        {
+            // Act
+            var result = await _controller.UpdateAsync(1, null);
+
+            //Assert 
+            var actionResult = result.Should().BeOfType<BadRequestResult>().Which;
+            actionResult.StatusCode.Should().Be(400);
+
+        }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(-1)]
+        public async Task UpdateAsync_WithInvalidId_ReturnsBadRequestResult(int id)
+        {
+            //Arrange
+            var model = new TModel();
+
+            // Act
+            var result = await _controller.UpdateAsync(id, model);
+
+            //Assert 
+            var actionResult = result.Should().BeOfType<BadRequestResult>().Which;
+            actionResult.StatusCode.Should().Be(400);
+
         }
 
         [Fact]

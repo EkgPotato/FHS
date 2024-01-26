@@ -16,4 +16,5 @@ public interface IBaseCrudService<TListModel, TModel, TEntity>
     Task CreateAsync(TModel? model, ICrudResult result);
     Task UpdateAsync(int id, TModel? model, ICrudResult result);
     Task DeleteAsync(int id, ICrudResult result);
+    bool Validate(TModel model, ICrudResult resut);
 }

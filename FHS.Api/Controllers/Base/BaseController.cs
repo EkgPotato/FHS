@@ -28,6 +28,7 @@ public abstract class BaseController<TListModel, TModel, TEntity, TService> : Co
     }
 
     [HttpGet("{id}")]
+    [ActionName("GetAsync")]
     public async Task<ActionResult<TModel>> GetAsync(int id)
     {
         try
@@ -79,51 +80,57 @@ public abstract class BaseController<TListModel, TModel, TEntity, TService> : Co
     }
 
     [HttpPost]
-    public async Task<ActionResult> CreateAsync([FromBody] TModel? entity)
+    public async Task<ActionResult> CreateAsync([FromBody] TModel? model)
     {
+        if (model == null)
+            return BadRequest();
+
         try
         {
             var result = new CrudResult();
 
-            await _service.CreateAsync(entity, result);
+            await _service.CreateAsync(model, result);
 
             if (result.Succeed())
             {
-                return CreatedAtAction(nameof(CreateAsync), entity);
+                return CreatedAtAction(nameof(this.GetAsync), new { id = model.Id }, model);
             }
             else
             {
-                return base.UnprocessableEntity(entity);
+                return base.UnprocessableEntity(model);
             }
         }
         catch (Exception ex)
         {
-            _logger.LogError("Error in method {method} on entity {entity}: {exception} ", nameof(CreateAsync), entity.ToString(), ex);
+            _logger.LogError("Error in method {method} on entity {entity}: {exception} ", nameof(CreateAsync), model.ToString(), ex);
             return StatusCode(500, ControllerExceptionMessages.Internal_Server_Error);
         }
     }
 
     [HttpPost("{id}")]
-    public async Task<IActionResult> UpdateAsync(int id, [FromBody] TModel? entity)
+    public async Task<IActionResult> UpdateAsync(int id, [FromBody] TModel? model)
     {
+        if (model == null || id <= 0)
+            return BadRequest();
+
         try
         {
             var result = new CrudResult();
 
-            await _service.UpdateAsync(id, entity, result);
+            await _service.UpdateAsync(id, model, result);
 
             if (result.Succeed())
             {
-                return CreatedAtAction(nameof(CreateAsync), entity);
+                return CreatedAtAction(nameof(GetAsync), new { id = model.Id }, model);
             }
             else
             {
-                return base.UnprocessableEntity(entity);
+                return base.UnprocessableEntity(model);
             }
         }
         catch (Exception ex)
         {
-            _logger.LogError("Error in method {method} on entity {entity}: {exception} ", nameof(UpdateAsync), entity.ToString(), ex);
+            _logger.LogError("Error in method {method} on entity {entity}: {exception} ", nameof(UpdateAsync), model.ToString(), ex);
             return StatusCode(500, ControllerExceptionMessages.Internal_Server_Error);
         }
     }

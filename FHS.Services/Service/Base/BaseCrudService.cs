@@ -8,6 +8,7 @@ using FHS.Resources.Messages;
 using FHS.Interfaces.Mapper.Base;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using FHS.Utilities.Exceptions.Service;
 
 namespace FHS.Services.Service.Base;
 
@@ -55,8 +56,7 @@ public abstract class BaseCrudService<TListModel, TModel, TEntity, TMapper> : IB
     {
         if (model == null)
         {
-            result.AddMessage(CrudResultMessages.CreateAsync_InvalidModel);
-            return;
+            throw new ModelNullException();
         }
 
         if (!Validate(model, result))
@@ -71,11 +71,15 @@ public abstract class BaseCrudService<TListModel, TModel, TEntity, TMapper> : IB
                 var entity = _mapper.MapToEntity(model);
 
                 await BeforeCreateAsync(entity);
+                entity.CreatedDate = DateTime.Now;
+                entity.UpdatedDate = DateTime.Now;
 
                 _dbSet.Add(entity);
                 _dbContext.SaveChanges();
 
                 dbTransaction.Commit();
+
+                model.Id = entity.Id;
             }
 
             catch (Exception ex)
@@ -89,10 +93,16 @@ public abstract class BaseCrudService<TListModel, TModel, TEntity, TMapper> : IB
 
     public async Task UpdateAsync(int id, TModel? model, ICrudResult result)
     {
-        if (model == null)
+        if (model == null || id <= 0)
         {
-            result.AddMessage(CrudResultMessages.UpdateAsync_InvalidModel);
-            return;
+            throw new ModelNullException();
+        }
+
+        var existingEntity = await _dbSet.FirstOrDefaultAsync(i => i.Id == id);
+
+        if (existingEntity == null)
+        {
+            throw new InvalidIdException();
         }
 
         if (!Validate(model, result))
@@ -104,16 +114,20 @@ public abstract class BaseCrudService<TListModel, TModel, TEntity, TMapper> : IB
         {
             try
             {
-                var entity = _mapper.MapToEntity(model);
+                var updatedEntity = _mapper.MapToEntity(model);
 
-                await BeforeUpdateAsync(entity);
+                await BeforeUpdateAsync(updatedEntity);
 
-                entity.Id = id;
-                _dbSet.Attach(entity);
-                _dbSet.Entry(entity).State = EntityState.Modified;
+                updatedEntity.Id = id;
+                updatedEntity.UpdatedDate = DateTime.Now;
+
+                _dbSet.Attach(updatedEntity);
+                _dbSet.Entry(updatedEntity).State = EntityState.Modified;
                 _dbContext.SaveChanges();
 
                 dbTransaction.Commit();
+
+                model.Id = updatedEntity.Id;
             }
 
             catch (Exception ex)
@@ -127,12 +141,10 @@ public abstract class BaseCrudService<TListModel, TModel, TEntity, TMapper> : IB
 
     public virtual async Task BeforeCreateAsync(TEntity model)
     {
-        model.CratedDate = DateTime.Now;
     }
 
     public virtual async Task BeforeUpdateAsync(TEntity model)
     {
-        model.UpdatedDate = DateTime.Now;
     }
 
     public async Task DeleteAsync(int id, ICrudResult result)
