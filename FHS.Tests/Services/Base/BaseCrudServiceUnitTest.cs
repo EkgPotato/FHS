@@ -9,6 +9,7 @@ using FHS.Resources.Messages;
 using FHS.Tests.TestHelpers;
 using FHS.Utilities.Exceptions.Service;
 using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 using Serilog;
 using Xunit;
@@ -42,30 +43,21 @@ namespace FHS.Tests.Services.Base
         {
             // Arrange
             var mappedEntity = new TModel { Id = 1 };
-            var result = new Mock<ICrudResult>();
             _mapperMock.Setup(i => i.MapToModel(It.IsAny<TEntity>())).Returns(mappedEntity);
 
             // Act
-            var model = await _service.GetAsync(1, result.Object);
+            var model = await _service.GetAsync(1);
 
             // Assert
             model.Should().NotBeNull();
             model.Should().BeEquivalentTo(mappedEntity);
-            result.Verify(r => r.AddMessage(It.IsAny<string>()), Times.Never);
         }
 
         [Fact]
-        public async Task GetAllAsync_InValidId_ReturnsNull()
+        public async Task GetAsync_WithInvalidId_ThrowsInvalidIdException()
         {
-            //Arrange
-            var result = new Mock<ICrudResult>();
-
-            // Act
-            var model = await _service.GetAsync(-1, result.Object);
-
-            // Assert
-            model.Should().BeNull();
-            result.Verify(r => r.AddMessage(CrudResultMessages.GetAsync_InvalidId), Times.Once);
+            await _service.Invoking(async x => await x.GetAsync(-1))
+                .Should().ThrowAsync<InvalidIdException>();
         }
 
         [Fact]
@@ -82,7 +74,7 @@ namespace FHS.Tests.Services.Base
 
             // Act
             var result = new Mock<ICrudResult>();
-            var list = await _service.GetAllAsync(result.Object);
+            var list = await _service.GetAllAsync();
 
             // Assert
             list.Should().NotBeNull();
@@ -108,7 +100,7 @@ namespace FHS.Tests.Services.Base
             result.Verify(r => r.AddMessage(It.IsAny<string>()), Times.Never);
             _dbContext.Set<TEntity>().Should().Contain(e => e.Id == model.Id);
             entitiesAfter.Should().HaveCount(entitiesBefore.Count + 1);
-            entitiesBefore.Last().Should().BeEquivalentTo(entity);
+            entitiesAfter.Last().Should().BeEquivalentTo(entity);
 
             //Clean
             _dbContext.Set<TEntity>().Remove(entity);
@@ -134,23 +126,23 @@ namespace FHS.Tests.Services.Base
         [Fact]
         public async Task UpdateAsync_WithValidModel_UpdatesEntity()
         {
-            ////Seed
-            //var entity = new TEntity();
-            //_dbContext.Set<TEntity>().Add(entity);
-            //_dbContext.SaveChanges();
+            // Arrange
+            var id = 1; 
+            var testModel = new TModel();
+            var testResult = new Mock<ICrudResult>();
 
-            ////Arrange 
-            //entity = _dbContext.Set<TEntity>().FirstOrDefault(i => i.Id == entity.Id);
-            //var updatedModel = _mapperMock.Object.MapToModel(entity);
-            //updatedModel.
+            var existingEntity = await _dbContext.Set<TEntity>().FindAsync(id);
+            _mapperMock.Setup(mapper => mapper.MapToEntity(It.IsAny<TModel>())).Returns(existingEntity);
 
-            ////Act
-            //var result = new Mock<ICrudResult>();
-            //await _service.UpdateAsync(entity.Id, model, result.Object);
+            // Act
+            await _service.UpdateAsync(id, testModel, testResult.Object);
 
-            ////Assert
-            //result.Verify(r => r.AddMessage(It.IsAny<string>()), Times.Never);
-            //_dbContext.Set<TEntity>().Last().Should().BeEquivalentTo(entity);
+            // Assert
+            _dbContext.Entry(existingEntity).Reload();
+            var updatedEntity = await _dbContext.Set<TEntity>().FindAsync(id);
+            existingEntity.UpdatedDate.Should().Be(updatedEntity.UpdatedDate);
+            existingEntity.UpdatedDate.Should().BeAfter(existingEntity.CreatedDate);
+
         }
 
         [Fact]
@@ -174,6 +166,38 @@ namespace FHS.Tests.Services.Base
         {
             //Act
             await _service.Invoking(async x => await x.UpdateAsync(-1, new TModel(), new Mock<ICrudResult>().Object))
+                .Should().ThrowAsync<InvalidIdException>();
+        }
+
+        [Fact]
+        public async Task DeletASync_WithValidId_DeletesEntity()
+        {
+            // Arrange
+            var entity = new TEntity(); 
+            await _dbContext.Set<TEntity>().AddAsync(entity);
+            await _dbContext.SaveChangesAsync();
+
+            // Detach the entity
+            //The instance of entity type 'Income' cannot be tracked because another instance with the key value '{Id: 4}'
+            //is already being tracked. When attaching existing entities, ensure that only one entity instance with a given key value is attached.
+            _dbContext.Entry(entity).State = EntityState.Detached; 
+
+            int id = entity.Id;
+            var entitiesBeforeCount = _dbContext.Set<TEntity>().Count();
+
+            // Act
+            await _service.DeleteAsync(id);
+            var entitiesAfterCount = _dbContext.Set<TEntity>().Count();
+
+            // Assert
+            entitiesAfterCount.Should().Be(entitiesBeforeCount - 1);
+        }
+
+        [Fact]
+        public async Task DeleteEntity_WhenEntityDoesNotExist_ShouldThrowInvalidIdException()
+        {
+            //Act & Assert
+            await _service.Invoking(async x => await x.DeleteAsync(-1))
                 .Should().ThrowAsync<InvalidIdException>();
         }
     }

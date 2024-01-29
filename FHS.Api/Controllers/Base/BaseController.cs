@@ -5,6 +5,7 @@ using FHS.Interfaces.Api.Controllers.Base;
 using FHS.Interfaces.Services.Base;
 using FHS.Resources.Exceptions;
 using FHS.Utilities.Common.Crud;
+using FHS.Utilities.Exceptions.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FHS.Api.Controllers.Base;
@@ -33,9 +34,7 @@ public abstract class BaseController<TListModel, TModel, TEntity, TService> : Co
     {
         try
         {
-            var result = new CrudResult();
-
-            var item = await _service.GetAsync(id, result);
+            var item = await _service.GetAsync(id);
 
             if (item != null)
             {
@@ -43,9 +42,12 @@ public abstract class BaseController<TListModel, TModel, TEntity, TService> : Co
             }
             else
             {
-                return BadRequest(result.Messages);
+                return NotFound();
             }
-
+        }
+        catch (InvalidIdException)
+        {
+            return BadRequest();
         }
         catch (Exception ex)
         {
@@ -59,9 +61,7 @@ public abstract class BaseController<TListModel, TModel, TEntity, TService> : Co
     {
         try
         {
-            var result = new CrudResult();
-
-            var item = await _service.GetAllAsync(result);
+            var item = await _service.GetAllAsync();
 
             if (item != null)
             {
@@ -69,7 +69,7 @@ public abstract class BaseController<TListModel, TModel, TEntity, TService> : Co
             }
             else
             {
-                return BadRequest(result.Messages);
+                return BadRequest();
             }
         }
         catch (Exception ex)
@@ -82,9 +82,6 @@ public abstract class BaseController<TListModel, TModel, TEntity, TService> : Co
     [HttpPost]
     public async Task<ActionResult> CreateAsync([FromBody] TModel? model)
     {
-        if (model == null)
-            return BadRequest();
-
         try
         {
             var result = new CrudResult();
@@ -97,8 +94,12 @@ public abstract class BaseController<TListModel, TModel, TEntity, TService> : Co
             }
             else
             {
-                return base.UnprocessableEntity(model);
+                return base.UnprocessableEntity(result.Messages);
             }
+        }
+        catch (ModelNullException)
+        {
+            return BadRequest();
         }
         catch (Exception ex)
         {
@@ -110,9 +111,6 @@ public abstract class BaseController<TListModel, TModel, TEntity, TService> : Co
     [HttpPost("{id}")]
     public async Task<IActionResult> UpdateAsync(int id, [FromBody] TModel? model)
     {
-        if (model == null || id <= 0)
-            return BadRequest();
-
         try
         {
             var result = new CrudResult();
@@ -125,8 +123,12 @@ public abstract class BaseController<TListModel, TModel, TEntity, TService> : Co
             }
             else
             {
-                return base.UnprocessableEntity(model);
+                return base.UnprocessableEntity(result.Messages);
             }
+        }
+        catch (Exception ex) when (ex is ModelNullException || ex is InvalidIdException)
+        {
+            return BadRequest();
         }
         catch (Exception ex)
         {
@@ -141,18 +143,13 @@ public abstract class BaseController<TListModel, TModel, TEntity, TService> : Co
     {
         try
         {
-            var result = new CrudResult();
+            await _service.DeleteAsync(id);
 
-            await _service.DeleteAsync(id, result);
-
-            if (result.Succeed())
-            {
-                return Ok();
-            }
-            else
-            {
-                return BadRequest(result.Messages);
-            }
+            return Ok();
+        }
+        catch (InvalidIdException) 
+        {
+            return BadRequest();
         }
         catch (Exception ex)
         {

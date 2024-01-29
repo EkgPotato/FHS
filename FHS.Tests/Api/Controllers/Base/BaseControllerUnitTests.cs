@@ -6,6 +6,7 @@ using FHS.Interfaces.Api.Controllers.Base;
 using FHS.Interfaces.Common.Crud;
 using FHS.Interfaces.Services.Base;
 using FHS.Utilities.Common.Crud;
+using FHS.Utilities.Exceptions.Service;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -36,7 +37,7 @@ namespace FHS.Tests.Api.Controllers.Base
             //Arrange
             //var crudResult = new CrudResult();
             var item = new TModel();
-            _serviceMock.Setup(s => s.GetAsync(It.IsAny<int>(), It.IsAny<CrudResult>())).ReturnsAsync(item).Verifiable();
+            _serviceMock.Setup(s => s.GetAsync(It.IsAny<int>())).ReturnsAsync(item).Verifiable();
 
             // Act
             var result = await _controller.GetAsync(1);
@@ -49,13 +50,13 @@ namespace FHS.Tests.Api.Controllers.Base
         public async Task GetAsync_WithInvalidId_ReturnsBadRequest()
         {
             //Arrange 
-            var id = -1;
+            _serviceMock.Setup(s => s.GetAsync(It.IsAny<int>())).ThrowsAsync(new InvalidIdException()).Verifiable();
 
             //Act
-            var result = await _controller.GetAsync(id);
+            var result = await _controller.GetAsync(It.IsAny<int>());
 
             //Assert
-            result.Result.Should().BeOfType<BadRequestObjectResult>();
+            result.Result.Should().BeOfType<BadRequestResult>();
         }
 
         [Fact]
@@ -64,7 +65,7 @@ namespace FHS.Tests.Api.Controllers.Base
             // Arrange
             int validId = 1;
 
-            _serviceMock.Setup(x => x.GetAsync(validId, It.IsAny<CrudResult>()))
+            _serviceMock.Setup(x => x.GetAsync(validId))
                         .ThrowsAsync(new Exception());
 
             // Act
@@ -80,7 +81,7 @@ namespace FHS.Tests.Api.Controllers.Base
         {
             //Arrange
             var itemsList = new List<TListModel>();
-            _serviceMock.Setup(s => s.GetAllAsync(It.IsAny<CrudResult>())).ReturnsAsync(itemsList).Verifiable();
+            _serviceMock.Setup(s => s.GetAllAsync()).ReturnsAsync(itemsList).Verifiable();
 
             // Act
             var result = await _controller.GetListAsync();
@@ -94,20 +95,20 @@ namespace FHS.Tests.Api.Controllers.Base
         {
             //Arrange
             List<TListModel> itemsList = null;
-            _serviceMock.Setup(s => s.GetAllAsync(It.IsAny<CrudResult>())).ReturnsAsync(itemsList).Verifiable();
+            _serviceMock.Setup(s => s.GetAllAsync()).ReturnsAsync(itemsList).Verifiable();
 
             //Act
             var result = await _controller.GetListAsync();
 
             //Assert
-            result.Result.Should().BeOfType<BadRequestObjectResult>();
+            result.Result.Should().BeOfType<BadRequestResult>();
         }
 
         [Fact]
         public async Task GetListAsync_ExceptionThrown_ReturnInternalServerErrorResult()
         {
             // Arrange
-            _serviceMock.Setup(x => x.GetAllAsync(It.IsAny<CrudResult>()))
+            _serviceMock.Setup(x => x.GetAllAsync())
                         .ThrowsAsync(new Exception());
 
             // Act
@@ -139,13 +140,17 @@ namespace FHS.Tests.Api.Controllers.Base
         [Fact]
         public async Task CreateAsync_WithNullEntity_ReturnsBadRequestResult()
         {
+            //Arrange
+            _serviceMock.Setup(s => s.CreateAsync(null, It.IsAny<CrudResult>()))
+                .ThrowsAsync(new ModelNullException())
+                .Verifiable();
+
             // Act
             var result = await _controller.CreateAsync(null);
 
             //Assert 
             var actionResult = result.Should().BeOfType<BadRequestResult>().Which;
             actionResult.StatusCode.Should().Be(400);
-
         }
 
         [Fact]
@@ -204,8 +209,13 @@ namespace FHS.Tests.Api.Controllers.Base
         [Fact]
         public async Task UpdateAsync_WithNullEntity_ReturnsBadRequestResult()
         {
+            //Arrange
+            _serviceMock.Setup(s => s.UpdateAsync(It.IsAny<int>(), null, It.IsAny<CrudResult>()))
+                .ThrowsAsync(new ModelNullException())
+                .Verifiable();
+
             // Act
-            var result = await _controller.UpdateAsync(1, null);
+            var result = await _controller.UpdateAsync(It.IsAny<int>(), null);
 
             //Assert 
             var actionResult = result.Should().BeOfType<BadRequestResult>().Which;
@@ -219,10 +229,12 @@ namespace FHS.Tests.Api.Controllers.Base
         public async Task UpdateAsync_WithInvalidId_ReturnsBadRequestResult(int id)
         {
             //Arrange
-            var model = new TModel();
+            _serviceMock.Setup(s => s.UpdateAsync(id, It.IsAny<TModel>(), It.IsAny<CrudResult>()))
+                .ThrowsAsync(new InvalidIdException())
+                .Verifiable();
 
             // Act
-            var result = await _controller.UpdateAsync(id, model);
+            var result = await _controller.UpdateAsync(id, It.IsAny<TModel>());
 
             //Assert 
             var actionResult = result.Should().BeOfType<BadRequestResult>().Which;
@@ -269,7 +281,7 @@ namespace FHS.Tests.Api.Controllers.Base
         public async Task DeleteAsync_WithValidId_ReturnsOk()
         {
             //Arrange
-            _serviceMock.Setup(i => i.DeleteAsync(It.IsAny<int>(), It.IsAny<CrudResult>())).Verifiable();
+            _serviceMock.Setup(i => i.DeleteAsync(It.IsAny<int>())).Verifiable();
 
             //Act
             var result = await _controller.DeleteAsync(1);
@@ -283,15 +295,14 @@ namespace FHS.Tests.Api.Controllers.Base
         public async Task DeleteAsync_WithInvalidId_ReturnsBadRequest()
         {
             //Arrange
-            _serviceMock.Setup(i => i.DeleteAsync(It.IsAny<int>(), It.IsAny<CrudResult>()))
-                .Callback((int id, ICrudResult result) => result.AddMessage("TestMessage"));
+            _serviceMock.Setup(i => i.DeleteAsync(It.IsAny<int>()))
+                .ThrowsAsync(new InvalidIdException());
 
             //Act
             var result = await _controller.DeleteAsync(-1);
 
             //Assert
-            var actionResult = result.Should().BeOfType<BadRequestObjectResult>().Which;
-            actionResult.StatusCode.Should().Be(400);
+            var actionResult = result.Should().BeOfType<BadRequestResult>();
         }
 
         [Fact]
@@ -299,7 +310,7 @@ namespace FHS.Tests.Api.Controllers.Base
         {
             // Arrange
             var model = new TModel();
-            _serviceMock.Setup(s => s.DeleteAsync(It.IsAny<int>(), It.IsAny<CrudResult>()))
+            _serviceMock.Setup(s => s.DeleteAsync(It.IsAny<int>()))
                 .ThrowsAsync(new Exception());
 
             // Act

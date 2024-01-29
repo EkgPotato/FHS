@@ -31,26 +31,24 @@ public abstract class BaseCrudService<TListModel, TModel, TEntity, TMapper> : IB
         _dbSet = dbContext.Set<TEntity>();
     }
 
-    public async Task<TModel?> GetAsync(int id, ICrudResult result)
+    public async Task<TModel?> GetAsync(int id)
     {
-        var entity = await _dbSet.FirstOrDefaultAsync(i => i.Id == id);
-
-        if (entity == null)
+        if (id <= 0)
         {
-            result.AddMessage(CrudResultMessages.GetAsync_InvalidId);
-            return null;
+            throw new InvalidIdException();
         }
+
+        var entity = await _dbSet.FirstOrDefaultAsync(i => i.Id == id);
 
         return _mapper.MapToModel(entity);
     }
 
-    public async Task<IEnumerable<TListModel>> GetAllAsync(ICrudResult result)
+    public async Task<IEnumerable<TListModel>> GetAllAsync()
     {
         var dbset = await _dbSet.ToListAsync();
 
         return _mapper.MapToListModels(dbset);
     }
-
 
     public async Task CreateAsync(TModel? model, ICrudResult result)
     {
@@ -93,7 +91,7 @@ public abstract class BaseCrudService<TListModel, TModel, TEntity, TMapper> : IB
 
     public async Task UpdateAsync(int id, TModel? model, ICrudResult result)
     {
-        if (model == null || id <= 0)
+        if (model == null)
         {
             throw new ModelNullException();
         }
@@ -147,27 +145,23 @@ public abstract class BaseCrudService<TListModel, TModel, TEntity, TMapper> : IB
     {
     }
 
-    public async Task DeleteAsync(int id, ICrudResult result)
+    public async Task DeleteAsync(int id)
     {
 
         var entity = await _dbSet.FirstOrDefaultAsync(i => i.Id == id);
 
         if (entity == null)
         {
-            result.AddMessage(CrudResultMessages.DeleteAsync_InvalidId);
-            return;
+            throw new InvalidIdException();
         }
 
         using (var dbTransaction = _dbContext.Database.BeginTransaction())
         {
             try
             {
-                BeforeDeleteAsync(id, result);
-
                 _dbSet.Remove(entity);
-                _dbContext.SaveChanges();
+                await _dbContext.SaveChangesAsync();
                 dbTransaction.Commit();
-
 
             }
             catch (Exception ex)
@@ -177,10 +171,6 @@ public abstract class BaseCrudService<TListModel, TModel, TEntity, TMapper> : IB
                 throw;
             }
         }
-    }
-
-    public virtual void BeforeDeleteAsync(int id, ICrudResult result)
-    {
     }
 
     public virtual bool Validate(TModel model, ICrudResult validationResuls)

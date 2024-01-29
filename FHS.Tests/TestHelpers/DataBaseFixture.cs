@@ -16,6 +16,7 @@ namespace FHS.Tests.TestHelpers
             var options = new DbContextOptionsBuilder<AppDbContext>()
                 .UseInMemoryDatabase(databaseName: "TestDatabase")
                 .ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning))
+                .EnableSensitiveDataLogging(true)
                 .Options;
 
             DbContext = new AppDbContext(options);
