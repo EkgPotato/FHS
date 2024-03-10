@@ -5,7 +5,9 @@ This repository serves as my personal sandbox for exploring and learning new ski
 Project itself is aimed at designing a system to manage and monitor my private finances.
 
 ## Technical Stack
-- **React & Angular:** These frameworks are use as separed frontend applications, mostly to enhance my angular experience and learn react. 
+- **React & Angular:** These frameworks are used as prepared frontend applications, mostly to enhance my angular experience and learn react.
 - **.NET Core and EF Core** 
 - **PostgreSQL**
-- **Blazor & .NET MAUI:** In the future, I plan to expand the project's with a Blazor-based mobile application, wrapped in .NET MAUI. 
+- **Blazor & .NET MAUI:** In the future, I plan to expand the project's with a Blazor-based mobile application, wrapped in .NET MAUI.
+
++ Project development is tracked using Jira
