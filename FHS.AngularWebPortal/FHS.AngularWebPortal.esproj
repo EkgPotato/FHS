@@ -9,4 +9,7 @@
     <!-- Folder where production build objects will be placed -->
     <BuildOutputFolder>$(MSBuildProjectDirectory)\dist\FHS.AngularWebPortal</BuildOutputFolder>
   </PropertyGroup>
+  <ItemGroup>
+    <None Include=".vscode\launch.json" />
+  </ItemGroup>
 </Project>
