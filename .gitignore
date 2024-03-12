@@ -367,3 +367,4 @@ FodyWeavers.xsd
 .idea/
 /FHS.ReactWebPortal/.vscode/*
 /FHS.AngularWebPortal/.vscode/*
+/FHS.AngularWebPortal/.vscode/launch.json
