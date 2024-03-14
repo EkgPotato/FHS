@@ -1,4 +1,4 @@
-.login-panel-container {
+.auth-panel-container {
     margin: auto;
     display: flex;
     align-items: center;
@@ -9,16 +9,16 @@
     background-color: transparent;
 }
 
-.login-panel-photo {
+.auth-panel-photo {
     height: 100%;
     width: 50%;
     display: block;
     background-size: cover;
     background-position: center;
-    background-image: url(src/assets/LoginPageImage.jpg);
+    background-image: url(src/assets/AuthPageImage.jpg);
 }
 
-.login-panel-action {
+.auth-panel-action {
     display: flex;
     flex-direction: column;
     width: 50%;
@@ -26,41 +26,42 @@
     background: #165e8c;
 }
 
-.login-panel-tabs {
+.auth-panel-tabs {
     width: 100%;
     justify-content: center;
     height: 10%;
     display: flex;
 }
 
-    .login-panel-tabs > div {
+    .auth-panel-tabs > div {
         width: 50%;
-        font-size: 16px;
+    }
+
+    .auth-panel-tabs > div > p {
+        font-size: 18px;
         font-weight: bold;
         text-align: center;
     }
 
-.login-tab {
-    padding: 10px;
+.auth-tab {
     cursor: pointer;
     background: rgba(154,212,231,255);
     transition: background 0.2s, border 0.2s;
-    border-width: 3px 3px 3px 3px;
+    border-width: 3px 3px 0px 0px;
     border-color: rgba(154,212,231,255);
     border-style: solid;
 }
 
-    .login-tab:hover {
+    .auth-tab:hover {
         background: rgb(68,126,163);
         background: linear-gradient(90deg, rgba(68,126,163,1) 0%, rgba(46,100,133,1) 100%);
-        border-width: 3px 3px 0px 3px;
+        border-width: 3px 3px 0px 0px;
         border-color: rgba(154,212,231,255);
         border-style: solid;
         transition: background 0.2s, border 0.2s;
     }
 
-.login-active-tab {
-    padding: 10px;
+.auth-active-tab {
     cursor: pointer;
     background: #165e8c;
     transition: background 0.2s, border 0.2s;
@@ -69,22 +70,22 @@
     border-style: solid;
 }
 
-.login-panel-content {
+.auth-panel-content {
     height: 90%;
     border-width: 0px 3px 3px 0px;
     border-color: rgba(154,212,231,255);
     border-style: solid;
 }
 
-    .login-panel-content > div {
+    .auth-panel-content > div {
         height: 100%;
     }
 
-.login-active-content {
+.auth-active-content {
     display: block;
 }
 
 
-.login-active-content {
+.auth-active-content {
     display: none;
 }
