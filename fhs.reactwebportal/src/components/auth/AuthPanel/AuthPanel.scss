@@ -1,13 +1,14 @@
 .auth-panel-container {
-    margin: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100vh;
-    border-radius: 15px;
-    height: 70vh;
-    box-shadow: 10px 10px 20px 0px rgba(0, 0, 0, 0.5);
-    background-color: transparent;
+   margin: auto;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   width: 100vh;
+
+   border-radius: 15px;
+   height: 70vh;
+   box-shadow: 10px 10px 20px 0px rgba(0, 0, 0, 0.5);
+   background-color: transparent;
 }
 
 .auth-panel-photo {
@@ -50,12 +51,12 @@
         }
 
 .auth-tab {
-    cursor: pointer;
-    background: rgba(154,212,231,255);
-    transition: background 0.2s, border 0.2s;
-    border-width: 3px 3px 0px 0px;
-    border-color: rgba(154,212,231,255);
-    border-style: solid;
+   cursor: pointer;
+   background: rgba(154,212,231,255);
+   transition: background 0.2s, border 0.2s;
+   border-width: 3px 3px 0px 0px;
+   border-color: rgba(154,212,231,255);
+   border-style: solid;
 }
 
     .auth-tab:hover {

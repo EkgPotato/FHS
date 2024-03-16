@@ -1,7 +1,7 @@
 import LoginForm from '../../components/auth/LoginForm/LoginForm';
 import AuthPanel from '../../components/auth/AuthPanel/AuthPanel';
 import SubmitForm from '../../components/auth/SubmitForm/SubmitForm';
-import './AuthPage.css';
+import './AuthPage.scss';
 
 function AuthPage()
 {

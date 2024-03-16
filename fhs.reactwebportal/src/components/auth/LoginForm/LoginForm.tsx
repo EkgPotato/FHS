@@ -1,4 +1,4 @@
-import './LoginForm.css';
+import './LoginForm.scss';
 
 function LoginForm() {
     return (

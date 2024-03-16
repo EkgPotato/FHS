@@ -1,5 +1,5 @@
 import { useState } from "react";
-import './AuthPanel.css';
+import './AuthPanel.scss';
 import AuthTabs from "../AuthStore/AuthStore";
 
 function AuthPanel(tabs: AuthTabs)
