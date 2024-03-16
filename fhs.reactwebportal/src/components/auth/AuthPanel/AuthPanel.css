@@ -4,6 +4,7 @@
     align-items: center;
     justify-content: center;
     width: 100vh;
+    border-radius: 15px;
     height: 70vh;
     box-shadow: 10px 10px 20px 0px rgba(0, 0, 0, 0.5);
     background-color: transparent;
@@ -13,6 +14,7 @@
     height: 100%;
     width: 50%;
     display: block;
+    border-radius: 15px 0px 0px 15px;
     background-size: cover;
     background-position: center;
     background-image: url(src/assets/AuthPageImage.jpg);
@@ -23,7 +25,6 @@
     flex-direction: column;
     width: 50%;
     height: 100%;
-    background: #165e8c;
 }
 
 .auth-panel-tabs {
@@ -31,17 +32,22 @@
     justify-content: center;
     height: 10%;
     display: flex;
+    background-color: transparent;
 }
 
     .auth-panel-tabs > div {
         width: 50%;
     }
 
-    .auth-panel-tabs > div > p {
-        font-size: 18px;
-        font-weight: bold;
-        text-align: center;
+    .auth-panel-tabs > div:nth-child(2) {
+        border-radius: 0px 15px 0px 0px;
     }
+
+        .auth-panel-tabs > div > p {
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+        }
 
 .auth-tab {
     cursor: pointer;
@@ -72,6 +78,7 @@
 
 .auth-panel-content {
     height: 90%;
+    border-radius: 0px 0px 15px 0px;
     border-width: 0px 3px 3px 0px;
     border-color: rgba(154,212,231,255);
     border-style: solid;
