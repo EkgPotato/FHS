@@ -1,99 +1,87 @@
+@import '../src/styles/colors';
+$CornerRadiusValue: 5px;
+
+
 .auth-panel-container {
    margin: auto;
-   display: flex;
-   align-items: center;
-   justify-content: center;
    width: 100vh;
-
-   border-radius: 15px;
    height: 70vh;
-   box-shadow: 10px 10px 20px 0px rgba(0, 0, 0, 0.5);
-   background-color: transparent;
 }
 
 .auth-panel-photo {
-    height: 100%;
-    width: 50%;
-    display: block;
-    border-radius: 15px 0px 0px 15px;
-    background-size: cover;
-    background-position: center;
-    background-image: url(src/assets/AuthPageImage.jpg);
+   height: 100%;
+   width: 50%;
 }
+
 
 .auth-panel-action {
-    display: flex;
-    flex-direction: column;
-    width: 50%;
-    height: 100%;
-}
-
-.auth-panel-tabs {
-    width: 100%;
-    justify-content: center;
-    height: 10%;
-    display: flex;
-    background-color: transparent;
-}
-
-    .auth-panel-tabs > div {
-        width: 50%;
-    }
-
-    .auth-panel-tabs > div:nth-child(2) {
-        border-radius: 0px 15px 0px 0px;
-    }
-
-        .auth-panel-tabs > div > p {
-            font-size: 14px;
-            font-weight: bold;
-            text-align: center;
-        }
-
-.auth-tab {
-   cursor: pointer;
-   background: rgba(154,212,231,255);
-   transition: background 0.2s, border 0.2s;
-   border-width: 3px 3px 0px 0px;
-   border-color: rgba(154,212,231,255);
+   background-color: $authPageMainColor;
+   border-radius: 0px $CornerRadiusValue 0px 0px;
+   border-width: 5px;
+   border-color: $authPageMainColor;
    border-style: solid;
 }
 
-    .auth-tab:hover {
-        background: rgb(68,126,163);
-        background: linear-gradient(90deg, rgba(68,126,163,1) 0%, rgba(46,100,133,1) 100%);
-        border-width: 3px 3px 0px 0px;
-        border-color: rgba(154,212,231,255);
-        border-style: solid;
-        transition: background 0.2s, border 0.2s;
-    }
+.auth-panel-tabs {
+   display: flex;
+   width: 100%;
+   justify-content: center;
+   height: 10%;
+   background-color: transparent;
+}
+
+.auth-panel-tabs > div{
+   width: 50%;
+}
+.auth-panel-tabs > div > p {
+   font-size: 14px;
+   font-weight: bold;
+   color: $mainFontColor;
+   text-align: center;
+}
+
+.auth-tab {
+   cursor: pointer;
+   background: $authPageMainColor;
+   transition: background 0.2s;
+}
+
+.auth-tab:hover {
+   background: $authPageMinorColor;
+   border-radius: $CornerRadiusValue $CornerRadiusValue 0px 0px;
+   transition: background 0.2s;
+}
+
+.auth-tab:hover > p{
+   color: $contrastFontColor;
+}
 
 .auth-active-tab {
-    cursor: pointer;
-    background: #165e8c;
-    transition: background 0.2s, border 0.2s;
-    border-width: 3px 3px 0px 0px;
-    border-color: rgba(154,212,231,255);
-    border-style: solid;
+   cursor: pointer;
+   background-color: $authPageSecondColor;
+   transition: background 0.2s;
+   border-radius: $CornerRadiusValue $CornerRadiusValue 0px 0px;
 }
 
 .auth-panel-content {
-    height: 90%;
-    border-radius: 0px 0px 15px 0px;
-    border-width: 0px 3px 3px 0px;
-    border-color: rgba(154,212,231,255);
-    border-style: solid;
+   background-color: $authPageSecondColor;
+   height: 90%;
+   border-radius: 0px 0px $CornerRadiusValue $CornerRadiusValue;
 }
+
+.auth-panel-login {
+   background-color: $authPageSecondColor;
+   height: 90%;
+   border-radius: 0px $CornerRadiusValue $CornerRadiusValue $CornerRadiusValue;
+}
+
+.auth-panel-registration {
+   background-color: $authPageSecondColor;
+   height: 90%;
+   border-radius: $CornerRadiusValue 0px $CornerRadiusValue $CornerRadiusValue;
+}
+
 
     .auth-panel-content > div {
         height: 100%;
     }
-
-.auth-active-content {
-    display: block;
-}
-
-
-.auth-active-content {
-    display: none;
-}

@@ -1,46 +1,74 @@
-import { useState } from "react";
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardMedia from '@mui/material/CardMedia';
+import * as React from 'react';
 import './AuthPanel.scss';
-import AuthTabs from "../AuthStore/AuthStore";
 
-function AuthPanel(tabs: AuthTabs)
+
+function AuthPanel()
 {
-    const [toggleState, setToggleState] = useState(1)
+    const tabs = {
+        login: 1,
+        registration: 2
+    }
+    const [value, setValue] = React.useState(tabs.login);
 
-    const toggleTab = (index: number) => setToggleState(index)
+    const handleChange = (newValue: number) =>
+    {
+        setValue(newValue);
+    };
 
-  return (
-      <div className='auth-panel-container'>
-          <div className='auth-panel-photo'>
-          </div>
-          <div className='auth-panel-action'>
-              <div
-                  className='auth-panel-tabs'>
-                  <div
-                      className={toggleState === 1 ? 'auth-active-tab' : 'auth-tab'}
-                      onClick={() => toggleTab(1)}>
-                      <p>Logowanie</p>
-                      
-                  </div>
-                  <div
-                      className={toggleState === 2 ? 'auth-active-tab' : 'auth-tab'}
-                      onClick={() => toggleTab(2)}>
-                      <p>Rejestracja</p>
-                      
-                  </div>
-              </div>
-              <div className='auth-panel-content'>
-                  <div
-                      className={toggleState === 1 ? 'auth-active-content' : 'auth-content'}>
-                      {tabs.login}
-                      </div> 
-                  <div
-                      className={toggleState === 2 ? 'auth-active-content' : 'auth-content'}>
-                      {tabs.submit}
-                  </div> 
-              </div>
-          </div>
-      </div>
-  );
+
+    return (
+
+        <Card
+            className='auth-panel-container'
+            sx={{
+                borderRadius: 1,
+                display: 'flex'
+            }}>
+            <CardMedia
+                className='auth-panel-photo'
+                component="img"
+                image="src/assets/AuthPageImage.jpg"
+            />
+            <Box
+                className='auth-panel-action'
+                sx={{
+                    width: '100%', typography: 'body1'
+                }}>
+                <Box
+                    className='auth-panel-tabs'>
+                    <Box
+                        className={value === tabs.login ? 'auth-active-tab' : 'auth-tab'}
+                        onClick={() => handleChange(tabs.login)}>
+                        <p>Logowanie</p>
+
+                    </Box>
+                    <Box
+                        className={value === tabs.registration ? 'auth-active-tab' : 'auth-tab'}
+                        onClick={() => handleChange(tabs.registration)}>
+                        <p>Rejestracja</p>
+
+                    </Box>
+                </Box>
+                <Box
+                    className={value === tabs.login ? 'auth-panel-login' : 'auth-panel-registration'}>
+                    <Box
+                        className={value === tabs.login ? 'auth-active-content' : 'auth-content'}>
+                        HelloWorld
+                    </Box>
+                    <Box
+                        className={value === tabs.registration ? 'auth-active-content' : 'auth-content'}>
+                        HelloWorld2
+                    </Box>
+                </Box>
+            </Box>
+        </Card>
+
+    );
 }
+
+
 
 export default AuthPanel;
