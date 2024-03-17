@@ -26,7 +26,7 @@ $CornerRadiusValue: 5px;
    display: flex;
    width: 100%;
    justify-content: center;
-   height: 10%;
+   height: 8%;
    background-color: transparent;
 }
 
@@ -63,25 +63,23 @@ $CornerRadiusValue: 5px;
    border-radius: $CornerRadiusValue $CornerRadiusValue 0px 0px;
 }
 
-.auth-panel-content {
-   background-color: $authPageSecondColor;
-   height: 90%;
-   border-radius: 0px 0px $CornerRadiusValue $CornerRadiusValue;
-}
-
 .auth-panel-login {
    background-color: $authPageSecondColor;
-   height: 90%;
+   height: 92%;
    border-radius: 0px $CornerRadiusValue $CornerRadiusValue $CornerRadiusValue;
 }
 
 .auth-panel-registration {
    background-color: $authPageSecondColor;
-   height: 90%;
+   height: 92%;
    border-radius: $CornerRadiusValue 0px $CornerRadiusValue $CornerRadiusValue;
 }
 
 
-    .auth-panel-content > div {
-        height: 100%;
+    .auth-panel-content  {
+        display: block;
     }
+
+.auth-content {
+   display: none;
+}

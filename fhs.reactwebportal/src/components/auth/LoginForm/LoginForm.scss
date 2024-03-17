@@ -1,0 +1,23 @@
+@import '../src/styles/colors';
+
+.login-form-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: space-around;
+    color: $mainFontColor;
+}
+
+.login-form-person-icon {
+    margin-top: 4em;
+    margin-bottom: 2em;
+    color: inherit;
+    transform: scale(3.5);
+}
+
+.login-form-login-button {
+    margin: 3em !important;
+    width: 60%;
+    height: 3em;
+}
+

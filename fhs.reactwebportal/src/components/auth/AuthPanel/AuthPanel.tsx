@@ -3,6 +3,8 @@ import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import * as React from 'react';
 import './AuthPanel.scss';
+import RegistrationForm from '../RegistrationForm/RegistrationForm';
+import LoginForm from '../LoginForm/LoginForm';
 
 
 function AuthPanel()
@@ -56,11 +58,11 @@ function AuthPanel()
                     className={value === tabs.login ? 'auth-panel-login' : 'auth-panel-registration'}>
                     <Box
                         className={value === tabs.login ? 'auth-active-content' : 'auth-content'}>
-                        HelloWorld
+                        <LoginForm/>
                     </Box>
                     <Box
                         className={value === tabs.registration ? 'auth-active-content' : 'auth-content'}>
-                        HelloWorld2
+                        <RegistrationForm/>
                     </Box>
                 </Box>
             </Box>
