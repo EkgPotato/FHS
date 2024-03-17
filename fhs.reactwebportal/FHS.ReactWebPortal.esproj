@@ -11,10 +11,7 @@
     <BuildOutputFolder>$(MSBuildProjectDirectory)\dist</BuildOutputFolder>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="src\assets\" />
     <Folder Include="src\components\common\" />
-    <Folder Include="src\components\login\LoginForm\" />
-    <Folder Include="src\components\login\SubmitForm\" />
     <Folder Include="src\utils\" />
     <Folder Include="src\services\" />
   </ItemGroup>

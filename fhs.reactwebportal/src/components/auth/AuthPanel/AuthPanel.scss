@@ -1,0 +1,85 @@
+@import '../src/styles/colors';
+$CornerRadiusValue: 5px;
+
+
+.auth-panel-container {
+   margin: auto;
+   width: 100vh;
+   height: 70vh;
+}
+
+.auth-panel-photo {
+   height: 100%;
+   width: 50%;
+}
+
+
+.auth-panel-action {
+   background-color: $authPageMainColor;
+   border-radius: 0px $CornerRadiusValue 0px 0px;
+   border-width: 5px;
+   border-color: $authPageMainColor;
+   border-style: solid;
+}
+
+.auth-panel-tabs {
+   display: flex;
+   width: 100%;
+   justify-content: center;
+   height: 8%;
+   background-color: transparent;
+}
+
+.auth-panel-tabs > div{
+   width: 50%;
+}
+.auth-panel-tabs > div > p {
+   font-size: 14px;
+   font-weight: bold;
+   color: $mainFontColor;
+   text-align: center;
+}
+
+.auth-tab {
+   cursor: pointer;
+   background: $authPageMainColor;
+   transition: background 0.2s;
+}
+
+.auth-tab:hover {
+   background: $authPageMinorColor;
+   border-radius: $CornerRadiusValue $CornerRadiusValue 0px 0px;
+   transition: background 0.2s;
+}
+
+.auth-tab:hover > p{
+   color: $contrastFontColor;
+}
+
+.auth-active-tab {
+   cursor: pointer;
+   background-color: $authPageSecondColor;
+   transition: background 0.2s;
+   border-radius: $CornerRadiusValue $CornerRadiusValue 0px 0px;
+}
+
+.auth-panel-login {
+   background-color: $authPageSecondColor;
+   height: 92%;
+   border-radius: 0px $CornerRadiusValue $CornerRadiusValue $CornerRadiusValue;
+}
+
+.auth-panel-registration {
+   background-color: $authPageSecondColor;
+   height: 92%;
+   border-radius: $CornerRadiusValue 0px $CornerRadiusValue $CornerRadiusValue;
+}
+
+
+    .auth-panel-content  {
+        display: block;
+    }
+
+.auth-content {
+   display: none;
+}
