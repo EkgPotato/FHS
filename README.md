@@ -1,16 +1,18 @@
-# Finance home system (FHS)
+# Finance Handling System (FHS)
 
 ## Overview
 This repository serves as my personal sandbox for exploring and learning new skills across various technologies and methodologies. 
 Project itself is aimed at designing a system to manage and monitor my private finances.
 
 ## Technical Stack
-- **React & Angular:** These frameworks are used as prepared frontend applications, mostly to enhance my angular experience and learn react.
-    - React:
-      - ([SASS](https://sass-lang.com/documentation/))
-      - ([MUI material](https://mui.com/material-ui/))
-- **.NET Core and EF Core** 
-- **PostgreSQL**
-- **Blazor & .NET MAUI:** In the future, I plan to expand the project's with a Blazor-based mobile application, wrapped in .NET MAUI.
+- **Backend:** 
+    - .NET Core
+    - Ef Core 
+    - PostgreSQL
+    - AutoMapper
+-**Frontend:** 
+    - Vue 
+- **Mobile:**
+    - Kotlin   
 
-+ Project development is tracked using Jira
++ Project development is tracked using Github projects
