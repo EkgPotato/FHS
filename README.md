@@ -1,4 +1,4 @@
-# Finance home system (FHS)
+# Finance Handling System (FHS)
 
 ## Overview
 This repository serves as my personal sandbox for exploring and learning new skills across various technologies and methodologies. 
