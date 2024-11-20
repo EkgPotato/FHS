@@ -10,9 +10,9 @@ Project itself is aimed at designing a system to manage and monitor my private f
     - Ef Core 
     - PostgreSQL
     - AutoMapper
--**Frontend:** 
+- **Frontend:**
     - Vue 
 - **Mobile:**
-    - Kotlin   
+    - MAUI   
 
 + Project development is tracked using Github projects
