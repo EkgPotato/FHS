@@ -13,6 +13,7 @@ Project itself is aimed at designing a system to manage and monitor my private f
 - **Frontend:**
     - Vue 
 - **Mobile:**
-    - MAUI   
+    - MAUI 
+    - MudBlazor UI library  
 
 + Project development is tracked using Github projects

@@ -1,0 +1,83 @@
+﻿@using FHS.Mobile.Components.Presentation
+<div class="expandable-fab-container">
+    <MudFab StartIcon="@mainFabIcon"
+            IconSize="Size.Large"
+            Size="Size.Large"
+            Class="main-fab"
+            Color="mainFabColor"
+            @onclick="ToggleExpand" />
+
+    @if (_isExpanded)
+    {
+        <div class="action-fabs">
+            <MudButton Variant="Variant.Filled"
+                       EndIcon="@Icons.Material.Filled.MoneyOff"
+                       Style="@($"background-color: {MainTheme.ExpenseColor}")"
+                       Class="action-fab">
+                @Strings.AddNewIncomeFabLabel
+            </MudButton>
+            <MudButton Variant="Variant.Filled"
+                       EndIcon="@Icons.Material.Filled.AttachMoney"
+                       Style="@($"background-color: {MainTheme.IncomeColor}")"
+                       Class="action-fab">
+                @Strings.AddNewExpenseFabLabel
+            </MudButton>
+        </div>
+    }
+
+</div>
+
+@code {
+    private string mainFabIcon { get; set; } = Icons.Material.Filled.Add;
+    private Color mainFabColor { get; set; } = Color.Primary;
+    private bool _isExpanded { get; set; } = false;
+    private void ToggleExpand()
+    {
+        _isExpanded = !_isExpanded;
+        if (_isExpanded)
+        {
+            mainFabIcon = Icons.Material.Filled.Close;
+            mainFabColor = Color.Secondary;
+        }
+        else
+        {
+            mainFabIcon = Icons.Material.Filled.Add;
+            mainFabColor = Color.Primary;
+        }
+    }
+}
+
+<style scoped>
+
+    .expandable-fab-container {
+        position: fixed;
+        bottom: 2em;
+        right: 2em;
+        display: flex;
+        flex-direction: column-reverse;
+        z-index: 1000;
+    }
+
+    .main-fab {
+        border-radius: 30%;
+        width: 5em;
+        float: right;
+        margin-left: auto;
+        height: 5em;
+    }
+
+    .action-fabs {
+        margin-bottom: 0.2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.2rem;
+    }
+
+    .action-fab {
+        width: 10em;
+        height: 4em;
+    }
+
+</style>
+

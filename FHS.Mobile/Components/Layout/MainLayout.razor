@@ -1,4 +1,9 @@
-﻿@inherits LayoutComponentBase
+﻿@using FHS.Mobile.Components.Presentation
+@inherits LayoutComponentBase
+<MudThemeProvider Theme="MainTheme.GetMainTheme()"/>
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
 
 <div class="page">
     <div class="sidebar">
