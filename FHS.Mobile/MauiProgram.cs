@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using MudBlazor.Services;
 
 namespace FHS.Mobile
 {
@@ -12,10 +13,13 @@ namespace FHS.Mobile
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                    fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+            builder.Services.AddMauiBlazorWebView();
+            builder.Services.AddMudServices();
+
 #if DEBUG
+            builder.Services.AddBlazorWebViewDeveloperTools();
     		builder.Logging.AddDebug();
 #endif
 
