@@ -1,0 +1,113 @@
+﻿@using FHS.Mobile.Components.Presentation
+@using FHS.Mobile.Enum
+<MudPaper Elevation="25"
+          Width="100"
+          Height="30"
+          Class="date-panel-container">
+    <MudIconButton Icon="@Icons.Material.Filled.CalendarMonth"
+                   Size="Size.Medium"
+                   OnClick="ToggleMenu">
+    </MudIconButton>
+    <MudText Typo="Typo.body1"
+             Class="main-date-label">
+        @SelectedDateLabel
+    </MudText>
+    <MudPopover Open="@_dateSelectMenuOpen"
+                AnchorOrigin="Origin.BottomLeft"
+                TransformOrigin="Origin.TopCenter"
+                Class="date-select-menu-popover">
+        <MudList T="string">
+            <MudListItem OnClick="SelectDate">
+                <MudText Typo="Typo.body1">Data</MudText>
+            </MudListItem>
+            <MudListItem OnClick="SelectDateRange">
+                <MudText Typo="Typo.body1">Zakres dat</MudText>
+            </MudListItem>
+        </MudList>
+    </MudPopover>
+</MudPaper>
+<MudPopover Open="@(_selectedDateType != DateType.None)"
+            AnchorOrigin="Origin.CenterCenter"
+            TransformOrigin="Origin.CenterCenter"
+            Class="date-select-menu-popover"
+            OnClose="ResetDateType">
+    @if (_selectedDateType == DateType.Date)
+    {
+        <MudDatePicker @bind-Date="SelectedDate"
+                       ShowToolbar="false"
+                       PickerVariant="PickerVariant.Static"
+                       AutoClose="true"
+                       OnClosedAsync="UpdateLabel" />
+    }
+    @if (_selectedDateType == DateType.Range)
+    {
+        <MudDateRangePicker @bind-DateRange="SelectedDateRange"
+                            ShowToolbar="false"
+                            PickerVariant="PickerVariant.Static"
+                            AutoClose="true"
+                            OnClosedAsync="UpdateLabel" />
+    }
+</MudPopover>
+
+
+
+@code {
+    private string SelectedDateLabel { get; set; } = "Wybierz datę";
+
+    private DateType _selectedDateType { get; set; } = DateType.None;
+    private bool _dateSelectMenuOpen = false;
+    private DateTime? SelectedDate { get; set; }
+    private DateRange? SelectedDateRange { get; set; }
+
+    private void ToggleMenu()
+    {
+        _dateSelectMenuOpen = !_dateSelectMenuOpen;
+        ResetDateType();
+    }
+
+    private void SelectDate()
+    {
+        _dateSelectMenuOpen = false;
+        _selectedDateType = DateType.Date;
+    }
+
+    private void SelectDateRange()
+    {
+        _dateSelectMenuOpen = false;
+        _selectedDateType = DateType.Range;
+    }
+
+    private void UpdateLabel()
+    {
+        if (_selectedDateType == DateType.Date && SelectedDate.HasValue)
+            SelectedDateLabel = SelectedDate.Value.ToString("yyyy-MM-dd");
+        else if (_selectedDateType == DateType.Date && SelectedDateRange.Start.HasValue && SelectedDateRange.End.HasValue)
+            SelectedDateLabel = SelectedDateLabel = $"{SelectedDateRange?.Start:yyyy-MM-dd} - {SelectedDateRange?.End:yyyy-MM-dd}";
+
+        ResetDateType();
+    }
+
+    private void ResetDateType() => _selectedDateType = DateType.None;
+}
+
+
+<style scoped>
+    .date-panel-container {
+        margin: 0.3em;
+        background-color: @MainTheme.SecondaryContrastColor !important;
+        display: flex;
+        vertical-align: middle;
+    }
+
+    .main-date-label {
+        width: 100%;
+        text-align: center;
+        margin: auto;
+        font-size: 1.2rem;
+    }
+
+    .date-select-menu-popover {
+        padding: 0.5rem;
+    }
+
+</style>
