@@ -1,0 +1,10 @@
+﻿@using FHS.Mobile.Components.Presentation
+<BaseButton Icon="@Icons.Material.Filled.Done"
+            Color="Color.Primary"
+            @attributes="Attrs">
+    @Strings.Submit
+</BaseButton>
+
+@code {
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? Attrs { get; set; }
+}

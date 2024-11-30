@@ -1,0 +1,10 @@
+﻿@using FHS.Mobile.Components.Presentation
+<BaseButton Icon="@Icons.Material.Filled.Cancel"
+            Color="Color.Error"
+            @attributes="Attrs">
+    @Strings.Close
+</BaseButton>
+
+@code {
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? Attrs { get; set; }
+}

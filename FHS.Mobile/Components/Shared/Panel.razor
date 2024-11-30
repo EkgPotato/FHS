@@ -1,0 +1,18 @@
+﻿@using FHS.Mobile.Components.Presentation
+<MudPaper Elevation="25"
+          Width="100"
+          Height="30"
+          Class="panel-container">
+    @ChildContent
+</MudPaper>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+}
+
+<style scoped>
+    .date-panel-container {
+        margin: 0.3em;
+        background-color: @MainTheme.SecondaryContrastColor !important;
+    }
+</style>

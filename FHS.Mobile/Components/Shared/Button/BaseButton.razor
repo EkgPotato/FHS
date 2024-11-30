@@ -1,0 +1,25 @@
+﻿<MudButton Variant="Variant.Filled"
+           StartIcon="@Icon"
+           Color="@Color"
+           OnClick="@OnClick"
+           Disabled="@Disabled"
+           Class="base-button"
+           @attributes="Attrs">
+    @Text
+</MudButton>
+
+@code {
+    [Parameter] public string? Icon { get; set; }
+    [Parameter] public Color Color { get; set; }
+    [Parameter] public string? Text { get; set; }
+    [Parameter] public EventCallback OnClick { get; set; }
+    [Parameter] public bool Disabled { get; set; } = false;
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? Attrs { get; set; }
+}
+
+<style scoped>
+    .base-button {
+        height: 2rem;
+    }
+
+</style>
