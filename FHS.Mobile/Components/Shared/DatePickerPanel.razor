@@ -4,17 +4,17 @@
 <Panel>
     <div class="panel-content-container">
         <MudIconButton Icon="@Icons.Material.Filled.CalendarMonth"
-                       Size="Size.Medium"
-                       OnClick="ToggleMenu">
+        Size="Size.Medium"
+        OnClick="ToggleMenu">
         </MudIconButton>
         <MudText Typo="Typo.body1"
-                 Class="main-date-label">
+        Class="main-date-label">
             @SelectedDateLabel
         </MudText>
         <MudPopover Open="@_dateSelectMenuOpen"
-                    AnchorOrigin="Origin.BottomLeft"
-                    TransformOrigin="Origin.TopCenter"
-                    Class="date-select-menu-popover">
+        AnchorOrigin="Origin.BottomLeft"
+        TransformOrigin="Origin.TopCenter"
+        Class="date-select-menu-popover">
             <MudList T="string">
                 <MudListItem OnClick="SelectDate">
                     <MudText Typo="Typo.body1">Data</MudText>
@@ -27,24 +27,24 @@
     </div>
 </Panel>
 <SubmitPopup Open="@(_selectedDateType != DateType.None)"
-             OnCancel="ResetDateType"
-             OnSubmit="UpdateLabel"
-             SubmitButtonDisabled="SubmitButtonDisabled">
-    @if (_selectedDateType == DateType.Date)
-    {
-        <MudDatePicker Date="_selectedDate"
-                       ShowToolbar="false"
-                       PickerVariant="PickerVariant.Static"
-                       DateChanged="DateChanged" />
-    }
-    @if (_selectedDateType == DateType.Range)
-    {
-        <MudDateRangePicker DateRange="_selectedDateRange"
-                            ShowToolbar="false"
-                            PickerVariant="PickerVariant.Static"
-                            DateRangeChanged="DateRangeChanged" />
-    }
+OnCancel="ResetState"
+OnSubmit="UpdateLabel"
+SubmitButtonDisabled="@_submitButtonDisabled">
 
+    <SubmitPopupContent>
+        @if (_selectedDateType == DateType.Date)
+        {
+            <MudDatePicker ShowToolbar="false"
+            PickerVariant="PickerVariant.Static"
+            DateChanged="DateChanged" />
+        }
+        @if (_selectedDateType == DateType.Range)
+        {
+            <MudDateRangePicker ShowToolbar="false"
+            PickerVariant="PickerVariant.Static"
+            DateRangeChanged="DateRangeChanged" />
+        }
+    </SubmitPopupContent>
 </SubmitPopup>
 
 @code {
@@ -54,12 +54,12 @@
     private bool _dateSelectMenuOpen = false;
     private DateTime? _selectedDate { get; set; }
     private DateRange? _selectedDateRange { get; set; }
+    private bool _submitButtonDisabled { get; set; } = true;
 
-    private bool SubmitButtonDisabled { get; set; } = true;
     private void ToggleMenu()
     {
         _dateSelectMenuOpen = !_dateSelectMenuOpen;
-        ResetDateType();
+        ResetState();
     }
 
     private void SelectDate()
@@ -78,15 +78,12 @@
     {
         if (_selectedDateType == DateType.Date && _selectedDate.HasValue)
             SelectedDateLabel = _selectedDate.Value.ToString("yyyy-MM-dd");
-        else if (_selectedDateType == DateType.Date && _selectedDateRange != null)
+        else if (_selectedDateType == DateType.Range && _selectedDateRange != null)
             SelectedDateLabel = SelectedDateLabel = $"{_selectedDateRange?.Start:yyyy-MM-dd} - {_selectedDateRange?.End:yyyy-MM-dd}";
 
-        ResetDateType();
+        ResetState();
     }
-    private void UpdateSubmitDissableState() =>
-        SubmitButtonDisabled =
-            (_selectedDateType == DateType.Date && _selectedDate.HasValue) ||
-            (_selectedDateType == DateType.Range && _selectedDateRange != null);
+    private void UpdateSubmitDissableState() => _submitButtonDisabled = !(_selectedDate.HasValue || _selectedDateRange != null);
 
     private void DateChanged(DateTime? date)
     {
@@ -102,9 +99,14 @@
         UpdateSubmitDissableState();
     }
 
-    private void ResetDateType() => _selectedDateType = DateType.None;
+    private void ResetState()
+    {
+        _selectedDateType = DateType.None;
+        _submitButtonDisabled = true;
+        _selectedDate = null;
+        _selectedDateRange = null;
+    }
 }
-
 
 <style scoped>
     .panel-content-container {

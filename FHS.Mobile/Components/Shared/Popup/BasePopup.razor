@@ -11,12 +11,12 @@
 
 @code {
     [Parameter] public bool Open { get; set; }
-    [Parameter] public RenderFragment? PopupContent { get; set; }
+    [Parameter] public required RenderFragment PopupContent { get; set; }
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? Attrs { get; set; }
 }
 
 <style scoped>
-    .popup-container {
+    .popup-content {
         padding: 0.5rem;
     }
 </style>

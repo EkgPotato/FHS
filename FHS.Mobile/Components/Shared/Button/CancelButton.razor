@@ -1,10 +1,16 @@
 ﻿@using FHS.Mobile.Components.Presentation
-<BaseButton Icon="@Icons.Material.Filled.Cancel"
-            Color="Color.Error"
-            @attributes="Attrs">
-    @Strings.Close
-</BaseButton>
+@inherits BaseButton
+
+@{
+    base.BuildRenderTree(__builder);
+}
 
 @code {
-    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? Attrs { get; set; }
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        base.Color = Color.Error;
+        base.Text = @Strings.Cancel;
+        base.Icon = @Icons.Material.Filled.Cancel;
+    }
 }
