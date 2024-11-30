@@ -21,5 +21,8 @@ namespace FHS.Mobile.Components.Presentation
 
         public static readonly string IncomeColor = "#A0D468";
         public static readonly string ExpenseColor = "#ED5565";
+
+        public static readonly string ContrastColor = "#FFFBFA";
+        public static readonly string SecondaryContrastColor = "#EBEBEB";
     }
 }

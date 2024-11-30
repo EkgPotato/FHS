@@ -1,0 +1,22 @@
+﻿@using FHS.Mobile.Components.Presentation
+<MudPopover Open="@Open"
+            AnchorOrigin="Origin.CenterCenter"
+            TransformOrigin="Origin.CenterCenter"
+            Class="popup-container"
+            @attributes="Attrs">
+    <div class="popup-content">
+        @PopupContent
+    </div>
+</MudPopover>
+
+@code {
+    [Parameter] public bool Open { get; set; }
+    [Parameter] public required RenderFragment PopupContent { get; set; }
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? Attrs { get; set; }
+}
+
+<style scoped>
+    .popup-content {
+        padding: 0.5rem;
+    }
+</style>

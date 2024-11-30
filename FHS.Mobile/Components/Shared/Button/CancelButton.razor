@@ -1,0 +1,16 @@
+﻿@using FHS.Mobile.Components.Presentation
+@inherits BaseButton
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        base.Color = Color.Error;
+        base.Text = @Strings.Cancel;
+        base.Icon = @Icons.Material.Filled.Cancel;
+    }
+}

@@ -1,0 +1,20 @@
+﻿@using FHS.Mobile.Components.Presentation
+<BasePopup Open="@Open">
+    <PopupContent>
+        @PopupContent
+        <MudDivider Class="popup-actions-divider" />
+        @ActionContent
+    </PopupContent>
+</BasePopup>
+
+@code {
+    [Parameter] public bool Open { get; set; }
+    [Parameter] public required RenderFragment PopupContent { get; set; }
+    [Parameter] public required RenderFragment ActionContent { get; set; }
+}
+
+<style scoped>
+    .popup-actions-divider {
+        margin: 0.5rem 0;
+    }
+</style>

@@ -1,0 +1,31 @@
+﻿@using FHS.Mobile.Components.Presentation
+@using FHS.Mobile.Components.Shared.Button
+
+<ActionPopup Open="@Open">
+    <PopupContent>
+        @SubmitPopupContent
+    </PopupContent>
+    <ActionContent>
+        <div class="popup-actions">
+            <CancelButton OnClick="OnCancel" />
+            <SubmitButton OnClick="OnSubmit"
+                          Disabled="SubmitButtonDisabled" />
+        </div>
+    </ActionContent>
+</ActionPopup>
+
+@code {
+    [Parameter] public bool Open { get; set; }
+    [Parameter] public bool SubmitButtonDisabled { get; set; } = false;
+    [Parameter] public required RenderFragment SubmitPopupContent { get; set; }
+
+    [Parameter] public EventCallback OnCancel { get; set; }
+    [Parameter] public EventCallback OnSubmit { get; set; }
+}
+
+<style scoped>
+    .popup-actions {
+        display: flex;
+        justify-content: space-between
+    }
+</style>

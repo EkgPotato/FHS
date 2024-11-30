@@ -1,0 +1,128 @@
+﻿@using FHS.Mobile.Components.Presentation
+@using FHS.Mobile.Components.Shared.Popup
+@using FHS.Mobile.Enum
+<Panel>
+    <div class="panel-content-container">
+        <MudIconButton Icon="@Icons.Material.Filled.CalendarMonth"
+        Size="Size.Medium"
+        OnClick="ToggleMenu">
+        </MudIconButton>
+        <MudText Typo="Typo.body1"
+        Class="main-date-label">
+            @SelectedDateLabel
+        </MudText>
+        <MudPopover Open="@_dateSelectMenuOpen"
+        AnchorOrigin="Origin.BottomLeft"
+        TransformOrigin="Origin.TopCenter"
+        Class="date-select-menu-popover">
+            <MudList T="string">
+                <MudListItem OnClick="SelectDate">
+                    <MudText Typo="Typo.body1">Data</MudText>
+                </MudListItem>
+                <MudListItem OnClick="SelectDateRange">
+                    <MudText Typo="Typo.body1">Zakres dat</MudText>
+                </MudListItem>
+            </MudList>
+        </MudPopover>
+    </div>
+</Panel>
+<SubmitPopup Open="@(_selectedDateType != DateType.None)"
+OnCancel="ResetState"
+OnSubmit="UpdateLabel"
+SubmitButtonDisabled="@_submitButtonDisabled">
+
+    <SubmitPopupContent>
+        @if (_selectedDateType == DateType.Date)
+        {
+            <MudDatePicker ShowToolbar="false"
+            PickerVariant="PickerVariant.Static"
+            DateChanged="DateChanged" />
+        }
+        @if (_selectedDateType == DateType.Range)
+        {
+            <MudDateRangePicker ShowToolbar="false"
+            PickerVariant="PickerVariant.Static"
+            DateRangeChanged="DateRangeChanged" />
+        }
+    </SubmitPopupContent>
+</SubmitPopup>
+
+@code {
+    private string SelectedDateLabel { get; set; } = "Wybierz datę";
+
+    private DateType _selectedDateType { get; set; } = DateType.None;
+    private bool _dateSelectMenuOpen = false;
+    private DateTime? _selectedDate { get; set; }
+    private DateRange? _selectedDateRange { get; set; }
+    private bool _submitButtonDisabled { get; set; } = true;
+
+    private void ToggleMenu()
+    {
+        _dateSelectMenuOpen = !_dateSelectMenuOpen;
+        ResetState();
+    }
+
+    private void SelectDate()
+    {
+        _dateSelectMenuOpen = false;
+        _selectedDateType = DateType.Date;
+    }
+
+    private void SelectDateRange()
+    {
+        _dateSelectMenuOpen = false;
+        _selectedDateType = DateType.Range;
+    }
+
+    private void UpdateLabel()
+    {
+        if (_selectedDateType == DateType.Date && _selectedDate.HasValue)
+            SelectedDateLabel = _selectedDate.Value.ToString("yyyy-MM-dd");
+        else if (_selectedDateType == DateType.Range && _selectedDateRange != null)
+            SelectedDateLabel = SelectedDateLabel = $"{_selectedDateRange?.Start:yyyy-MM-dd} - {_selectedDateRange?.End:yyyy-MM-dd}";
+
+        ResetState();
+    }
+    private void UpdateSubmitDissableState() => _submitButtonDisabled = !(_selectedDate.HasValue || _selectedDateRange != null);
+
+    private void DateChanged(DateTime? date)
+    {
+        _selectedDate = date;
+        _selectedDateRange = null;
+        UpdateSubmitDissableState();
+    }
+
+    private void DateRangeChanged(DateRange? dateRange)
+    {
+        _selectedDate = null;
+        _selectedDateRange = dateRange;
+        UpdateSubmitDissableState();
+    }
+
+    private void ResetState()
+    {
+        _selectedDateType = DateType.None;
+        _submitButtonDisabled = true;
+        _selectedDate = null;
+        _selectedDateRange = null;
+    }
+}
+
+<style scoped>
+    .panel-content-container {
+        display: flex;
+        vertical-align: middle;
+    }
+
+    .main-date-label {
+        width: 100%;
+        text-align: center;
+        margin: auto;
+        font-size: 1.2rem;
+    }
+
+    .date-select-menu-popover {
+        padding: 0.5rem;
+    }
+
+</style>
