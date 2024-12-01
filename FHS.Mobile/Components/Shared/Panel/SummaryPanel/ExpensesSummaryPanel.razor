@@ -1,5 +1,5 @@
 ﻿@using FHS.Mobile.Components.Presentation
-@inherits BaseButton
+@inherits SummaryPanel
 
 @{
     base.BuildRenderTree(__builder);
@@ -9,8 +9,8 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        base.Color = Color.Primary;
-        base.Text = AppStrings.Submit;
-        base.Icon = @Icons.Material.Filled.Done;
+        base.Text = AppStrings.Income;
+        base.Reverse = true;
     }
 }
+

@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace FHS.Mobile.Components.Presentation
 {
-    public static class Strings
+    public static class AppStrings
     {
-        public static readonly string AddNewIncomeFabLabel = "Wydatek";
-        public static readonly string AddNewExpenseFabLabel = "Przychód";
+        public static readonly string Expense = "Wydatek";
+        public static readonly string Income = "Przychód";
 
         public static readonly string Close = "Zamknij";
         public static readonly string Cancel = "Anuluj";

@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FHS.Mobile.Utils
+namespace FHS.Mobile.Enum
 {
-    public class Utils
+    public enum Tendency
     {
+        None = 1,
+        Growing,
+        Decreasing, 
     }
 }
