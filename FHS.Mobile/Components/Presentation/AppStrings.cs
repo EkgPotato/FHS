@@ -9,7 +9,9 @@ namespace FHS.Mobile.Components.Presentation
     public static class AppStrings
     {
         public static readonly string Expense = "Wydatek";
+        public static readonly string Expenses = "Wydatki";
         public static readonly string Income = "Przychód";
+        public static readonly string Incomes = "Przychody";
 
         public static readonly string Close = "Zamknij";
         public static readonly string Cancel = "Anuluj";
