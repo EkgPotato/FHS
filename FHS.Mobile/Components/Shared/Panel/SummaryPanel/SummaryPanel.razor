@@ -1,0 +1,77 @@
+﻿@using FHS.Mobile.Enum
+@using FHS.Mobile.Utils
+<BasePanel>
+    <div class="summary-panel-container">
+        <div class="text-container">
+            <MudText Typo="Typo.body1"
+            Class="main-date-label">
+                @Text
+            </MudText>
+            <MudText Typo="Typo.body1"
+            Class="main-date-label">
+                @Value
+            </MudText>
+        </div>
+        <MudIcon Icon="@_tendencyIcon" Class="tendency-icon" />
+    </div>
+    <div style="@($"background-color: {@_tendencyColor}")" class="bottom-divider" />
+
+</BasePanel>
+
+@code {
+    [Parameter] public string Text { get; set; }
+    [Parameter] public double? Value { get; set; }
+    [Parameter] public bool? Reverse { get; set; }
+    [Parameter]
+    public Tendency? Tendency
+    {
+        get { return _tendency; }
+        set
+        {
+            if (_tendency == value) return;
+
+            _tendency = value;
+
+            if (Reverse.HasValue && Reverse == true)
+            {
+                value = value.Reverse();
+            }
+
+            _tendencyIcon = value.MapTendencyToIcon();
+            _tendencyColor = value.MapTendencyToColor();
+            StateHasChanged();
+        }
+    }
+    private Tendency? _tendency;
+    private string? _tendencyIcon { get; set; }
+    private string? _tendencyColor { get; set; }
+}
+
+<style scoped>
+    .summary-panel-container {
+        width: 100%;
+        display: flex;
+        gap: 0.5rem;
+    }
+
+
+    .text-container {
+        width: 70%;
+    }
+
+        .text-container > p {
+            text-align: right;
+        }
+
+    .tendency-icon {
+        font-size: 4rem;
+        margin: auto;
+        width: 20%
+    }
+
+    .bottom-divider {
+        height: 0.2rem;
+        width: 100%;
+    }
+
+</style>

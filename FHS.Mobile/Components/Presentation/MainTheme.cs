@@ -23,6 +23,10 @@ namespace FHS.Mobile.Components.Presentation
         public static readonly string ExpenseColor = "#ED5565";
 
         public static readonly string ContrastColor = "#FFFBFA";
-        public static readonly string SecondaryContrastColor = "#EBEBEB";
+        public static readonly string SecondaryContrastColor = "#F3F3F3";
+
+        public static string TendencyGrowingColor = "#A0D468";
+        public static string TendencyDecreasingColor = "#ED5565";
+        public static string TendencyNoneColor = PrimaryCol;
     }
 }

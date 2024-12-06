@@ -1,9 +1,9 @@
 ﻿@using FHS.Mobile.Components.Presentation
-<MudPaper Elevation="25"
+<MudPaper Elevation="5"
           Width="100"
           Height="30"
           Class="panel-container">
-    @ChildContent
+        @ChildContent
 </MudPaper>
 
 @code {
@@ -12,7 +12,9 @@
 
 <style scoped>
     .panel-container {
-        margin: 0.3em;
+        margin: 0.2em;
+        padding: 1em;
+        width: 100%;
         background-color: @MainTheme.SecondaryContrastColor !important;
     }
 </style>
