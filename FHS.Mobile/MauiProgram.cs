@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using FHS.Mobile.Services;
+using Microsoft.Extensions.Logging;
 using MudBlazor.Services;
 
 namespace FHS.Mobile
@@ -17,12 +18,12 @@ namespace FHS.Mobile
 
             builder.Services.AddMauiBlazorWebView();
             builder.Services.AddMudServices();
+            builder.Services.AddSingleton<ApiService>();
 
 #if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();
     		builder.Logging.AddDebug();
 #endif
-
             return builder.Build();
         }
     }
