@@ -1,0 +1,19 @@
+﻿@using FHS.Mobile.Components.Presentation
+<MudText Typo="Typo.h5"
+         Align="Align.Center"
+         Class="login-label">
+    @Text
+</MudText>
+
+@code {
+    [Parameter] public string Text { get; set; }
+}
+
+<style scoped>
+    .login-label {
+        color: @MainTheme.SecondaryLightColor !important;
+    }
+
+</style>
+
+

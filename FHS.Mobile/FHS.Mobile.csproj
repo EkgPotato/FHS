@@ -34,7 +34,6 @@
 
         <!-- Images -->
         <MauiImage Include="Resources\Images\*" />
-        <MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
 
         <!-- Custom Fonts -->
         <MauiFont Include="Resources\Fonts\*" />
@@ -49,6 +48,18 @@
         <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="$(MauiVersion)" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.1" />
         <PackageReference Include="MudBlazor" Version="7.15.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Resources\Images\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <MauiImage Include="wwwroot\images\login_background.png" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="wwwroot\images\login_background.png" />
     </ItemGroup>
 
 </Project>

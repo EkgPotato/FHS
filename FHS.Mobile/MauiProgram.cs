@@ -1,4 +1,5 @@
-﻿using FHS.Mobile.Services;
+﻿using FHS.Mobile.Interfaces;
+using FHS.Mobile.Services;
 using Microsoft.Extensions.Logging;
 using MudBlazor.Services;
 
@@ -18,7 +19,8 @@ namespace FHS.Mobile
 
             builder.Services.AddMauiBlazorWebView();
             builder.Services.AddMudServices();
-            builder.Services.AddSingleton<ApiService>();
+            builder.Services.AddSingleton<IAuthService, AuthService>();
+            builder.Services.AddSingleton<IApiService, ApiService>();
 
 #if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();

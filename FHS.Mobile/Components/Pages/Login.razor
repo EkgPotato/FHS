@@ -1,23 +1,31 @@
-﻿@page "/login"
+﻿@using FHS.Mobile.Components.Presentation
+@using FHS.Mobile.Components.Shared.Button
+@using FHS.Mobile.Components.Shared.Field
+@using FHS.Mobile.Components.Shared.Panel
+@using FHS.Mobile.Components.Shared.Label
+@using FHS.Mobile.Interfaces
 @using FHS.Mobile.Services
-@inject ApiService ApiService
+@page "/"
+@inject IAuthService _authService
+@inject NavigationManager _navigationManager
 
-<h3>Logowanie</h3>
+<div class="login-page-container">
+    <BasePanel Class="login-panel">
+        <MudForm Spacing="2">
+            <div>
+                <LoginLabel Text="@AppStrings.Username" />
+                <LoginTextField Value="@Username" />
+            </div>
 
-<div>
-    <label for="username">Nazwa użytkownika:</label>
-    <input type="text" id="username" @bind="Username" />
+            <div>
+                <LoginLabel Text="@AppStrings.Password" />
+                <PasswordTextField Password="@Password" />
+            </div>
+            <LoginButton OnClick="@HandleLogin" />
+        </MudForm>
+
+    </BasePanel>
 </div>
-
-<div>
-    <label for="password">Hasło:</label>
-    <input type="password" id="password" @bind="Password" />
-</div>
-
-<button @onclick="HandleLogin">Zaloguj</button>
-
-<p>@Message</p>
-
 @code {
     private string Username { get; set; }
     private string Password { get; set; }
@@ -25,21 +33,30 @@
 
     private async Task HandleLogin()
     {
-        try
-        {
-            var response = await ApiService.LoginAsync(Username, Password);
-            if (response.IsSuccessStatusCode)
-            {
-                Message = "Logowanie zakończone sukcesem!";
-            }
-            else
-            {
-                Message = "Błąd logowania. Sprawdź dane.";
-            }
-        }
-        catch (Exception ex)
-        {
-            Message = $"Wystąpił błąd: {ex.Message}";
-        }
+        await _authService.Login(Username, Password);
+
+        if (_authService.IsAuthenticated)
+            _navigationManager.NavigateTo("/home");
     }
 }
+
+<style scoped>
+    .login-page-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        width: 100vw;
+        background-image: url("images/login_background.png");
+        background-size: cover;
+    }
+
+    .login-panel {
+        margin-bottom: 30%;
+        padding: 1em;
+        width: 80%;
+        height: 40%;
+        background-color: @MainTheme.PrimaryCol !important;
+    }
+
+</style>
