@@ -1,10 +1,10 @@
 ﻿@using FHS.Mobile.Components.Presentation
 <MudTextField @bind-Value="Value"
-              Typo="Typo.h5"
+              Typo="Typo.h6"
+              Placeholder="@AppStrings.Username"
               Margin="Margin.Dense"
               Variant="Variant.Outlined"
               Class="text-field" />
-
 
 @code {
     [Parameter] public string Value { get; set; }
@@ -14,6 +14,5 @@
     .text-field {
         color: @MainTheme.PrimaryDarkColor !important;
         background-color: @MainTheme.PrimaryLightColor !important;
-        border-radius: 5%;
     }
 </style>

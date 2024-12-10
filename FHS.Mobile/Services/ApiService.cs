@@ -13,16 +13,13 @@ namespace FHS.Mobile.Services
         private readonly HttpClient _httpClient;
         public ApiService()
         {
-            _httpClient = new HttpClient()
-            {
-                BaseAddress = new Uri("###")
-            };
+            _httpClient = new HttpClient();
         }
 
         public async Task<HttpResponseMessage> LoginAsync(string username, string password)
         {
             var loginData = new { Username = username, Password = password };
-            return await _httpClient.PostAsJsonAsync("###", loginData);
+            return await _httpClient.PostAsJsonAsync("api/login", loginData);
         }
     }
 }
