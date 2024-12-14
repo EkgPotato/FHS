@@ -1,6 +1,20 @@
 ﻿@using FHS.Mobile.Components.Pages
+@using FHS.Mobile.Interfaces
+@inject IAuthService _authService
+@inject NavigationManager _navigationManager
+
 <Router AppAssembly="@typeof(MauiProgram).Assembly">
     <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(Layout.MainLayout)" />
+        @if (_authService.IsAuthenticated) 
+        {
+            <RouteView RouteData="@routeData" DefaultLayout="@typeof(Layout.MainLayout)" />
+        }
+        else
+        {
+            <Login/>
+        }
     </Found>
+    <NotFound>
+        <h1>Nie znaleziono strony</h1>
+    </NotFound>
 </Router>

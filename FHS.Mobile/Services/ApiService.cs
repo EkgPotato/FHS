@@ -16,10 +16,12 @@ namespace FHS.Mobile.Services
             _httpClient = new HttpClient();
         }
 
+        //TODO: Remove when connection is stable
         public async Task<HttpResponseMessage> LoginAsync(string username, string password)
         {
             var loginData = new { Username = username, Password = password };
-            return await _httpClient.PostAsJsonAsync("api/login", loginData);
+            //return await _httpClient.PostAsJsonAsync("api/login", loginData);
+            return new() { StatusCode = System.Net.HttpStatusCode.OK };
         }
     }
 }

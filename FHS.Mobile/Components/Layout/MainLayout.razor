@@ -9,19 +9,14 @@
 <MudSnackbarProvider />
 
 
-@if (_authService.IsAuthenticated)
-{
-    <MudPaper Elevation="25" Class="main-toolbar-container">
-        <MudToolBar>
-            <MudIconButton Icon="@Icons.Material.Outlined.Menu" Class="main-toolbar-item" />
-        </MudToolBar>
-    </MudPaper>
-    @Body
-}
-else
-{
-    @Body
-}
+
+<MudPaper Elevation="25" Class="main-toolbar-container">
+    <MudToolBar>
+        <MudIconButton Icon="@Icons.Material.Outlined.Menu" Class="main-toolbar-item" />
+    </MudToolBar>
+</MudPaper>
+@Body
+
 
 <style scoped>
     .main-toolbar-container {
