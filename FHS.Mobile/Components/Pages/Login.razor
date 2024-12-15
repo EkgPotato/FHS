@@ -6,13 +6,13 @@
 @using FHS.Mobile.Services
 @page "/login"
 @inject IAuthService _authService
-@inject NavigationManager _navigationManager
+@inject INavigationService _navigationService
 
 <div class="login-page-container">
     <BasePanel Class="login-panel">
         <MudForm Spacing="2">
-                <UsernameField Value="@Username" />
-                <PasswordField Password="@Password" />
+            <UsernameField Value="@Username" />
+            <PasswordField Password="@Password" />
         </MudForm>
     </BasePanel>
 
@@ -26,9 +26,7 @@
     private async Task HandleLogin()
     {
         await _authService.Login(Username, Password);
-
-        if (_authService.IsAuthenticated)
-            _navigationManager.NavigateTo("/home");
+        _navigationService.NavigateToDefault();
     }
 }
 

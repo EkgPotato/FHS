@@ -1,7 +1,13 @@
 ﻿@using FHS.Mobile.Components.Pages
+@using FHS.Mobile.Components.Presentation
 @using FHS.Mobile.Interfaces
 @inject IAuthService _authService
 @inject NavigationManager _navigationManager
+
+<MudThemeProvider Theme="MainTheme.GetMainTheme()" />
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
 
 <Router AppAssembly="@typeof(MauiProgram).Assembly">
     <Found Context="routeData">
@@ -15,6 +21,6 @@
         }
     </Found>
     <NotFound>
-        <h1>Nie znaleziono strony</h1>
+        <InvalidRoute/>
     </NotFound>
 </Router>

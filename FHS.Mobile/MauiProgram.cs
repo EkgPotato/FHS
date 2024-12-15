@@ -19,8 +19,9 @@ namespace FHS.Mobile
 
             builder.Services.AddMauiBlazorWebView();
             builder.Services.AddMudServices();
-            builder.Services.AddSingleton<IAuthService, AuthService>();
-            builder.Services.AddSingleton<IApiService, ApiService>();
+            builder.Services.AddScoped<IAuthService, AuthService>();
+            builder.Services.AddScoped<IApiService, ApiService>();
+            builder.Services.AddScoped<INavigationService, NavigationService>();
 
 #if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();

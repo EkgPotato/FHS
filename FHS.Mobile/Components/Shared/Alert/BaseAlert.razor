@@ -1,0 +1,10 @@
+﻿<MudAlert Elevation="5"
+          Variant="Variant.Filled"
+          Severity="Severity.Error">
+    @Message
+</MudAlert>
+
+@code {
+    [Parameter] public string? Message { get; set; }
+    [Parameter] public Severity AlertSeverity { get; set; }
+}

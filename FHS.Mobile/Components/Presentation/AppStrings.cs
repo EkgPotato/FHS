@@ -21,5 +21,8 @@ namespace FHS.Mobile.Components.Presentation
         public static readonly string Cancel = "Anuluj";
         public static readonly string Submit = "Zapisz";
         public static readonly string Select = "Wybierz";
+
+        public static readonly string InvalidRoute = "Wystąpił błąd podczas nawigacji";
+        public static readonly string BakcToHome = "Powrót do strony głównej";
     }
 }
