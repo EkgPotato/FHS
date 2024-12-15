@@ -1,6 +1,26 @@
-﻿<Router AppAssembly="@typeof(MauiProgram).Assembly">
+﻿@using FHS.Mobile.Components.Pages
+@using FHS.Mobile.Components.Presentation
+@using FHS.Mobile.Interfaces
+@inject IAuthService _authService
+@inject NavigationManager _navigationManager
+
+<MudThemeProvider Theme="MainTheme.GetMainTheme()" />
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<Router AppAssembly="@typeof(MauiProgram).Assembly">
     <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(Layout.MainLayout)" />
-        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+        @if (_authService.IsAuthenticated) 
+        {
+            <RouteView RouteData="@routeData" DefaultLayout="@typeof(Layout.MainLayout)" />
+        }
+        else
+        {
+            <Login/>
+        }
     </Found>
+    <NotFound>
+        <InvalidRoute/>
+    </NotFound>
 </Router>

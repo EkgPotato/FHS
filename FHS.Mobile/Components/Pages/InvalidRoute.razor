@@ -1,0 +1,30 @@
+﻿@page "/invalidRoute"
+@using FHS.Mobile.Components.Shared.Alert
+@using FHS.Mobile.Components.Shared.Button
+@using FHS.Mobile.Interfaces
+@using FHS.Mobile.Components.Presentation
+@inject INavigationService _navigationService
+
+<div class="info-container">
+    <ErrorAlert Message="@AppStrings.InvalidRoute" />
+    <BackToHomeButton OnClick="@BackToHome" />
+</div>
+
+@code {
+    private void BackToHome() => _navigationService.NavigateToDefault();
+}
+
+<style scoped>
+    .info-container {
+        display: flex;
+        padding-bottom: 40vh;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        height: 100vh;
+        width: 100vw;
+        gap: 1rem;
+        background-size: cover;
+    }
+</style>

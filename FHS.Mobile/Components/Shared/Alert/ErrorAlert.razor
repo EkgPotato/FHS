@@ -1,0 +1,14 @@
+﻿@using FHS.Mobile.Components.Presentation
+@inherits BaseAlert
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        // base.AlertSeverity = @Severity.Error;
+    }
+}

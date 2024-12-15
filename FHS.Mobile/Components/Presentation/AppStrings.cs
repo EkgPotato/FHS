@@ -8,6 +8,10 @@ namespace FHS.Mobile.Components.Presentation
 {
     public static class AppStrings
     {
+        public static readonly string Username = "Użytkownik";
+        public static readonly string Password = "Hasło";
+        public static readonly string Login = "Zaloguj";
+
         public static readonly string Expense = "Wydatek";
         public static readonly string Expenses = "Wydatki";
         public static readonly string Income = "Przychód";
@@ -17,5 +21,8 @@ namespace FHS.Mobile.Components.Presentation
         public static readonly string Cancel = "Anuluj";
         public static readonly string Submit = "Zapisz";
         public static readonly string Select = "Wybierz";
+
+        public static readonly string InvalidRoute = "Wystąpił błąd podczas nawigacji";
+        public static readonly string BakcToHome = "Powrót do strony głównej";
     }
 }

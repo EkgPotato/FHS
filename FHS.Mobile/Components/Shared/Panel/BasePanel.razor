@@ -1,13 +1,15 @@
 ﻿@using FHS.Mobile.Components.Presentation
 <MudPaper Elevation="5"
-          Width="100"
-          Height="30"
-          Class="panel-container">
-        @ChildContent
+Width="100"
+Height="30"
+Class="@Class">
+    @ChildContent
 </MudPaper>
 
 @code {
     [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    [Parameter] public string? Class { get; set; } = "panel-container";
 }
 
 <style scoped>
@@ -15,6 +17,6 @@
         margin: 0.2em;
         padding: 1em;
         width: 100%;
-        background-color: @MainTheme.SecondaryContrastColor !important;
+        background-color: @MainTheme.SecondaryLightColor !important;
     }
 </style>

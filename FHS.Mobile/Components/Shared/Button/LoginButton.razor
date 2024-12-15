@@ -1,0 +1,27 @@
+﻿@using FHS.Mobile.Components.Presentation
+@inherits BaseButton
+
+@{
+    base.BuildRenderTree(__builder);
+}
+
+@code {
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        base.Color = Color.Primary;
+        base.Text = AppStrings.Login;
+        base.Class = "login-button";
+    }
+}
+
+<style scoped> 
+    .login-button {
+        height: 3rem;
+        width: 40%;
+        margin-top: 1rem;
+        font-size: 1rem;
+        background-color: @MainTheme.SecondaryLightColor !important;
+        color: @MainTheme.PrimaryDarkColor !important;
+    }
+</style>

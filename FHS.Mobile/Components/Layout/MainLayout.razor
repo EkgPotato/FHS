@@ -1,19 +1,15 @@
 ﻿@using FHS.Mobile.Components.Presentation
+@using FHS.Mobile.Interfaces
 @inherits LayoutComponentBase
-<MudThemeProvider Theme="MainTheme.GetMainTheme()"/>
-<MudPopoverProvider />
-<MudDialogProvider />
-<MudSnackbarProvider />
+@inject IAuthService _authService
 
-<div class="main">
-    <MudPaper Elevation="25" Class="main-toolbar-container" >
-        <MudToolBar>
-            <MudIconButton Icon="@Icons.Material.Outlined.Menu" Class="main-toolbar-item" />
-        </MudToolBar>
-    </MudPaper>
-    @Body
+<MudPaper Elevation="25" Class="main-toolbar-container">
+    <MudToolBar>
+        <MudIconButton Icon="@Icons.Material.Outlined.Menu" Class="main-toolbar-item" />
+    </MudToolBar>
+</MudPaper>
+@Body
 
-</div>
 
 <style scoped>
     .main-toolbar-container {
@@ -22,7 +18,7 @@
     }
 
     .main-toolbar-item {
-        color: @MainTheme.ContrastColor !important
+        color: @MainTheme.PrimaryLightColor !important
     }
 
 </style>

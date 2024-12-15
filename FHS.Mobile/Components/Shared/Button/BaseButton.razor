@@ -1,9 +1,10 @@
 ﻿<MudButton Variant="Variant.Filled"
-           StartIcon="@Icon"
-           Color="@Color"
-           OnClick="@OnClick"
-           Disabled="@Disabled"
-           Class="base-button">
+StartIcon="@Icon"
+Color="@Color"
+
+OnClick="@OnClick"
+Disabled="@Disabled"
+Class="@Class">
     @Text
 </MudButton>
 
@@ -13,6 +14,7 @@
     [Parameter] public string? Text { get; set; }
     [Parameter] public EventCallback OnClick { get; set; }
     [Parameter] public bool Disabled { get; set; } = false;
+    [Parameter] public string Class { get; set; } = "base-button";
 }
 
 <style scoped>

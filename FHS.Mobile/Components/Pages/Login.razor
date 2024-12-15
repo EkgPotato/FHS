@@ -1,0 +1,53 @@
+﻿@using FHS.Mobile.Components.Presentation
+@using FHS.Mobile.Components.Shared.Button
+@using FHS.Mobile.Components.Shared.Field
+@using FHS.Mobile.Components.Shared.Panel
+@using FHS.Mobile.Interfaces
+@using FHS.Mobile.Services
+@page "/login"
+@inject IAuthService _authService
+@inject INavigationService _navigationService
+
+<div class="login-page-container">
+    <BasePanel Class="login-panel">
+        <MudForm Spacing="2">
+            <UsernameField Value="@Username" />
+            <PasswordField Password="@Password" />
+        </MudForm>
+    </BasePanel>
+
+    <LoginButton OnClick="@HandleLogin" />
+</div>
+@code {
+    private string Username { get; set; }
+    private string Password { get; set; }
+    private string Message { get; set; }
+
+    private async Task HandleLogin()
+    {
+        await _authService.Login(Username, Password);
+        _navigationService.NavigateToDefault();
+    }
+}
+
+<style scoped>
+    .login-page-container {
+        display: flex;
+        flex-direction: column;
+        justify-content:center;
+        align-items: center;
+        align-content: center;
+        height: 100vh;
+        width: 100vw;
+        background-image: url("images/login_background.png");
+        background-size: cover;
+    }
+
+    .login-panel {
+        margin: 0;
+        padding: 1em;
+        width: 80%;
+        background-color: @MainTheme.PrimaryCol !important;
+    }
+
+</style>
