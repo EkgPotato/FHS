@@ -2,6 +2,7 @@
 {
     public interface IApiService
     {
-        Task<HttpResponseMessage> LoginAsync(string username, string password);
+        HttpClient Client { get; }
+        Task<bool> CheckHealthAsync();
     }
 }
