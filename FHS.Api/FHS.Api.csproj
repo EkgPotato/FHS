@@ -27,12 +27,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\FHS.Data\FHS.Data.csproj" />
       <ProjectReference Include="..\FHS.Interfaces\FHS.Interfaces.csproj" />
       <ProjectReference Include="..\FHS.Resources\FHS.Resources.csproj" />

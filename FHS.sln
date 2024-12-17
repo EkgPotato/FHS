@@ -18,7 +18,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FHS.Mapper", "FHS.Mapper\FH
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FHS.Resources", "FHS.Resources\FHS.Resources.csproj", "{738AA5D1-5E1F-4D6C-AA99-AB991FEE8905}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FHS.Utilities", "FHS.Common\FHS.Utilities.csproj", "{52AA6998-1C83-4697-86B2-215B8AA30D0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FHS.Utilities", "FHS.Utilities\FHS.Utilities.csproj", "{52AA6998-1C83-4697-86B2-215B8AA30D0D}"
 	ProjectSection(ProjectDependencies) = postProject
 		{738AA5D1-5E1F-4D6C-AA99-AB991FEE8905} = {738AA5D1-5E1F-4D6C-AA99-AB991FEE8905}
 	EndProjectSection
@@ -36,6 +36,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mobile", "Mobile", "{BF34B433-2230-4ACA-B42A-2CA8337EC7D6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FHS.Mobile", "FHS.Mobile\FHS.Mobile.csproj", "{A6C8E2FD-E0A5-41C4-8400-70B303705E8F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{59FAFF3E-AECA-4445-8FE9-D7D70B3CF1E7}"
+	ProjectSection(SolutionItems) = preProject
+		Dockerfile = Dockerfile
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
