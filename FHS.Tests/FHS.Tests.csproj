@@ -31,7 +31,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FHS.Api\FHS.Api.csproj" />
-    <ProjectReference Include="..\FHS.Common\FHS.Utilities.csproj" />
+    <ProjectReference Include="..\FHS.Utilities\FHS.Utilities.csproj" />
     <ProjectReference Include="..\FHS.Domain\FHS.Domain.csproj" />
   </ItemGroup>
 

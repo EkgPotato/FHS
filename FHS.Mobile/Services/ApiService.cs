@@ -10,18 +10,20 @@ namespace FHS.Mobile.Services
 {
     public class ApiService : IApiService
     {
-        private readonly HttpClient _httpClient;
+        public HttpClient Client { get; }
         public ApiService()
         {
-            _httpClient = new HttpClient();
+            Client = new HttpClient()
+            {
+                BaseAddress = new Uri("/")
+            };
         }
 
-        //TODO: Remove when connection is stable
-        public async Task<HttpResponseMessage> LoginAsync(string username, string password)
+        public async Task<bool> CheckHealthAsync()
         {
-            var loginData = new { Username = username, Password = password };
-            //return await _httpClient.PostAsJsonAsync("api/login", loginData);
-            return new() { StatusCode = System.Net.HttpStatusCode.OK };
+            var response = await Client.GetAsync("api/Health");
+
+            return response.IsSuccessStatusCode;
         }
     }
 }

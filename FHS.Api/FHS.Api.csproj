@@ -4,7 +4,9 @@
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <UserSecretsId>8528c627-63e7-40eb-b6ee-beab4555526a</UserSecretsId>
+        <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
     </PropertyGroup>
 
     <ItemGroup>
@@ -19,17 +21,12 @@
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
+        <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.10" />
         <PackageReference Include="Serilog" Version="4.1.0" />
         <PackageReference Include="Serilog.Extensions.Hosting" Version="8.0.0" />
         <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="7.0.0" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Content Include="..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
     </ItemGroup>
 
     <ItemGroup>
