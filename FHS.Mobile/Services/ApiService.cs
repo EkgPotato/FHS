@@ -13,6 +13,12 @@ namespace FHS.Mobile.Services
         public HttpClient Client { get; }
         public ApiService()
         {
+            //TODO: ONLY FOR DEBUG
+            var handler = new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
+            };
+            
             Client = new HttpClient()
             {
                 BaseAddress = new Uri("/")
