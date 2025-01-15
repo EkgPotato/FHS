@@ -11,17 +11,22 @@ namespace FHS.Mobile.Services
     public class ApiService : IApiService
     {
         public HttpClient Client { get; }
+
         public ApiService()
         {
-            //TODO: ONLY FOR DEBUG
-            var handler = new HttpClientHandler
+            var handler = new HttpClientHandler();
+#if DEBUG
+            handler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) =>
             {
-                ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
+                if (cert.Issuer.Equals("CN=localhost"))
+                    return true;
+                return errors == System.Net.Security.SslPolicyErrors.None;
             };
-            
-            Client = new HttpClient()
+#endif
+
+            Client = new HttpClient(handler)
             {
-                BaseAddress = new Uri("/")
+                BaseAddress = new Uri("")
             };
         }
 
