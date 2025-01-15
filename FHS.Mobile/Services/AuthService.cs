@@ -9,8 +9,7 @@ public class AuthService(IApiService _apiService) : IAuthService
     {
         try
         {
-            var loginData = new { Username = username, Password = password };
-            var response =  await _apiService.Client.PostAsJsonAsync("api/Auth", loginData);
+            var response =  await _apiService.Client.PostAsJsonAsync("api/Auth", new { username, password });
             IsAuthenticated = response.IsSuccessStatusCode;
         }
         catch (Exception ex)
