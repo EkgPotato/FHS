@@ -14,12 +14,8 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog();
 
-// Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
-
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(connectionString)
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
     .LogTo(Log.Logger.Information, LogLevel.Information, null)
     .EnableSensitiveDataLogging());
 
